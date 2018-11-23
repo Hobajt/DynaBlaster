@@ -1,4 +1,4 @@
-package com.kopecrad.radek.dynablaster;
+package com.kopecrad.dynablaster;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.kopecrad.radek.dynablaster", appContext.getPackageName());
+        assertEquals("com.kopecrad.dynablaster", appContext.getPackageName());
     }
 }
