@@ -3,4 +3,11 @@
     <string name="menu_startGame">Start New Game</string>
     <string name="menu_quit">Quit</string>
     <string name="menu_options">Options</string>
+    <string name="menu_back">Back</string>
+    <string name="menu_resetGame">Reset game progress</string>
+
+    <string name="prefs_name">com.kopecrad.dynablaster.gameprefs</string>
+    <string name="menu_sound">Enable sound</string>
+    <string name="menu_scoreboard">Scoreboard</string>
+    <string name="menu_startGameContinue">Continue</string>
 </resources>

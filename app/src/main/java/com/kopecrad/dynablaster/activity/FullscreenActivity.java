@@ -1,4 +1,4 @@
-package com.kopecrad.dynablaster;
+package com.kopecrad.dynablaster.activity;
 
 import android.app.Activity;
 import android.os.Bundle;

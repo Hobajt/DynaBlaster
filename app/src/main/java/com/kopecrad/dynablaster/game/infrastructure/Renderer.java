@@ -1,4 +1,4 @@
-package com.kopecrad.dynablaster;
+package com.kopecrad.dynablaster.game.infrastructure;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
