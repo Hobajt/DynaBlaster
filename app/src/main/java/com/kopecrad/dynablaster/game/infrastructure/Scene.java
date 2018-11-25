@@ -1,6 +1,9 @@
 package com.kopecrad.dynablaster.game.infrastructure;
 
-import com.kopecrad.dynablaster.game.infrastructure.level.LevelState;
+import android.content.Context;
+
+import com.kopecrad.dynablaster.game.infrastructure.level.LevelData;
+import com.kopecrad.dynablaster.game.infrastructure.level.PlayerProgress;
 
 /**
  * Core game management.
@@ -8,11 +11,15 @@ import com.kopecrad.dynablaster.game.infrastructure.level.LevelState;
  */
 public class Scene {
 
-    private LevelState state;
     private Renderer renderer;
 
-    public Scene(LevelState state, Renderer renderer) {
-        this.state= state;
+    private PlayerProgress progress;
+    private LevelData levelData;
+
+    public Scene(PlayerProgress progress, Renderer renderer) {
+        this.progress= progress;
         this.renderer= renderer;
+
+        levelData= LevelData.LoadLevel(progress.getNextLevel());
     }
 }

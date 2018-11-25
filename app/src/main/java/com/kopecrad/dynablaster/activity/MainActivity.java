@@ -9,9 +9,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import com.kopecrad.dynablaster.R;
+import com.kopecrad.dynablaster.game.infrastructure.level.PlayerProgress;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +24,8 @@ public class MainActivity extends FullscreenActivity {
 
     private Map<String, View> menus;
     private SharedPreferences prefs;
+
+    private boolean isProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,29 +54,19 @@ public class MainActivity extends FullscreenActivity {
     }
 
     /**
-     * Starts the game.
-      * @param view
-     */
-    public void startGame(View view) {
-        Intent intent= new Intent(getBaseContext(), GameActivity.class);
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-    }
-
-    /**
-     * Removes any game progres.
+     * Completely removes local progress and achievements.
      * @param view
      */
     public void resetGame(View view) {
         //TODO: add popup with question "Do you really want to reset your progress?"
 
-        //write reset flag - actual reset happens in GameActivity during level loading
-        SharedPreferences.Editor pEdit= prefs.edit();
-        pEdit.putBoolean("resetGame", true);
-        pEdit.apply();
+        //TODO: erase achievements (scores, etc.)
 
-        //rename start game btn to default
-        ((TextView)findViewById(R.id.menu_main_startGameBtn))
-                .setText(getResources().getString(R.string.menu_startGame));
+        //erase last game run
+        PlayerProgress.resetProgress(prefs);
+        isProgress= false;
+        continueBtnVisibility();
+
         Log.d("kek", "Game progress has been reset.");
     }
 
@@ -87,7 +79,32 @@ public class MainActivity extends FullscreenActivity {
     }
 
     /**
-     * Activity initialization in general.
+     * Starts the game with previous player's progress.
+     * Should only be available when there is some progress.
+     * @param view
+     */
+    public void gameContinue(View view) {
+        Intent intent= new Intent(getBaseContext(), GameActivity.class);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
+
+    /**
+     * Starts brand new game run.
+     * @param view
+     */
+    public void gameNew(View view) {
+        if(isProgress) {
+            PlayerProgress.resetProgress(prefs);
+            isProgress= false;
+        }
+
+        Intent intent= new Intent(getBaseContext(), GameActivity.class);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+    }
+
+    /**
+     * Initial setup.
+     * Sets proper button states, etc.
      */
     private void initialize() {
         //load menu slides references
@@ -97,23 +114,25 @@ public class MainActivity extends FullscreenActivity {
 
         //init preferences
         prefs= getSharedPreferences(getResources().getString(R.string.prefs_name), Context.MODE_PRIVATE);
+        isProgress= !PlayerProgress.noProgress(prefs);
 
         //initialize sound switch in options
         init_soundSwitch();
-
-        //rename start game button
-        init_renameStartButton();
+        continueBtnVisibility();
     }
 
-    private void init_renameStartButton() {
-        TextView btn= findViewById(R.id.menu_main_startGameBtn);
-        btn.setText( getResources().getString(
-                prefs.getBoolean("gameInProgress", false)
-                        ? R.string.menu_startGameContinue
-                        : R.string.menu_startGame)
+    /**
+     * Hides continue button when there is no game in progress.
+     */
+    private void continueBtnVisibility() {
+        findViewById(R.id.menu_main_gameContinueBtn).setVisibility(
+            isProgress ? View.VISIBLE : View.GONE
         );
     }
 
+    /**
+     * Properly sets state of options-sound switch
+     */
     private void init_soundSwitch() {
         Switch soundSwitch= findViewById(R.id.menu_opt_soundSwitch);
         soundSwitch.setChecked(prefs.getBoolean("sound", true));
@@ -128,3 +147,4 @@ public class MainActivity extends FullscreenActivity {
         });
     }
 }
+

@@ -14,15 +14,30 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/menu_main_startGameBtn"
+            android:id="@+id/menu_main_gameContinueBtn"
             android:layout_width="163dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:onClick="startGame"
-            android:text="@string/menu_startGame"
+            android:onClick="gameContinue"
+            android:text="@string/menu_gameContinue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/menu_main_gameNewBtn"
+            android:layout_width="163dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:onClick="gameNew"
+            android:text="@string/menu_gameNew"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -56,7 +71,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/menu_main_startGameBtn"
+            app:layout_constraintTop_toBottomOf="@+id/menu_main_gameContinueBtn"
             app:layout_constraintVertical_bias="0.048" />
 
         <Button
