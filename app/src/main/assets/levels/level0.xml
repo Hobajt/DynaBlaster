@@ -1,0 +1,31 @@
+<level>
+    <description>
+        <id>0</id>
+        <name>Default Level</name>
+    </description>
+    <settings>
+        <playerSpawn x="3" y="3" />
+        <tileset>0</tileset>
+        <winConditions>
+            <goal>0</goal>
+            <timeLimit>120</timeLimit>
+        </winConditions>
+    </settings>
+    <map>
+        <row>10111111111111</row>
+        <row>10020000000001</row>
+        <row>10020000000001</row>
+        <row>12220000000001</row>
+        <row>10000000000001</row>
+        <row>10000000000001</row>
+        <row>10000000000001</row>
+        <row>10000000000001</row>
+        <row>10000000000001</row>
+        <row>10000000000001</row>
+        <row>10000000000001</row>
+        <row>10000000000001</row>
+        <row>10000000000001</row>
+        <row>11111111111111</row>
+    </map>
+    <enemies></enemies>
+</level>

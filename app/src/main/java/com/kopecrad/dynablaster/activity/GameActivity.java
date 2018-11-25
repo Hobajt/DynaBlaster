@@ -8,6 +8,7 @@ import android.view.SurfaceView;
 import com.kopecrad.dynablaster.R;
 import com.kopecrad.dynablaster.game.infrastructure.Renderer;
 import com.kopecrad.dynablaster.game.infrastructure.Scene;
+import com.kopecrad.dynablaster.game.infrastructure.level.data.LevelData;
 import com.kopecrad.dynablaster.game.infrastructure.level.PlayerProgress;
 
 /**
@@ -29,7 +30,7 @@ public class GameActivity extends FullscreenActivity {
 
         SurfaceView surfView= findViewById(R.id.surfaceView);
         renderer= new Renderer(surfView);
-        scene= new Scene(new PlayerProgress(prefs), renderer);
+        scene= new Scene(this, new PlayerProgress(prefs), renderer);
     }
 
     @Override

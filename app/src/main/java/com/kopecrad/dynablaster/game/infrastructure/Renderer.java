@@ -1,18 +1,18 @@
 package com.kopecrad.dynablaster.game.infrastructure;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Point;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import com.kopecrad.dynablaster.game.infrastructure.level.Renderable;
+import com.kopecrad.dynablaster.game.objects.GameObject;
 
 /**
  * Canvas draw updates - controlled in separate thread.
  * Don't use Thread.start() to initialize, use resume() instead.
  */
-public class Renderer implements Runnable/*, SurfaceHolder.Callback  */{
+public class Renderer implements Runnable, SurfaceHolder.Callback  {
 
     float pos;
 
@@ -21,14 +21,20 @@ public class Renderer implements Runnable/*, SurfaceHolder.Callback  */{
 
     private SurfaceView surfView;
     private SurfaceHolder holder;
+    private ScreenSettings screen;
+
+    private Renderable renderable;
 
     public Renderer(SurfaceView surfView) {
         this.surfView= surfView;
         holder= surfView.getHolder();
-        //holder.addCallback(this);
+        holder.addCallback(this);
         renderThread= null;
         running= false;
         pos= 0f;
+
+        screen= new ScreenSettings();
+        GameObject.setScreenSettings(screen);
     }
 
     @Override
@@ -38,16 +44,10 @@ public class Renderer implements Runnable/*, SurfaceHolder.Callback  */{
                 continue;
 
             Canvas canvas= holder.lockCanvas();
-            canvas.drawRGB(255, 0, 0);
 
-            Point p= new Point();
-            surfView.getDisplay().getSize(p);
+            if(renderable != null)
+                renderable.renderUpdate(canvas);
 
-            Paint paint= new Paint();
-            paint.setColor(Color.BLUE);
-            paint.setStyle(Paint.Style.FILL);
-
-            canvas.drawRect(p.x* pos, p.y* pos, p.x * pos + 20, p.y * pos + 20, paint);
             holder.unlockCanvasAndPost(canvas);
 
             pos += 0.02f;
@@ -83,18 +83,27 @@ public class Renderer implements Runnable/*, SurfaceHolder.Callback  */{
         renderThread.start();
     }
 
-    /*@Override
+    @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         Log.d("kek", "Surface Created");
     }
 
     @Override
-    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+    public void surfaceChanged(SurfaceHolder surfaceHolder, int format, int width, int height) {
         Log.d("kek", "Surface Changed");
+        screen.updateSize(width, height);
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
         Log.d("kek", "Surface Destroyed");
-    }*/
+    }
+
+    public ScreenSettings getScreen() {
+        return screen;
+    }
+
+    public void registerRenderable(Renderable renderable) {
+        this.renderable= renderable;
+    }
 }
