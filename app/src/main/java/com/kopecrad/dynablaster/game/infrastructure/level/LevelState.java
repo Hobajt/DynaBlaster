@@ -2,15 +2,13 @@ package com.kopecrad.dynablaster.game.infrastructure.level;
 
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.util.Log;
 
 import com.kopecrad.dynablaster.game.infrastructure.InputHandler;
-import com.kopecrad.dynablaster.game.objects.Collidable;
 import com.kopecrad.dynablaster.game.objects.GameObject;
-import com.kopecrad.dynablaster.game.objects.creature.Enemy;
-import com.kopecrad.dynablaster.game.objects.creature.Player;
-import com.kopecrad.dynablaster.game.objects.tile.Tile;
+import com.kopecrad.dynablaster.game.objects.collidable.Collidable;
+import com.kopecrad.dynablaster.game.objects.collidable.creature.Enemy;
+import com.kopecrad.dynablaster.game.objects.collidable.creature.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +21,7 @@ public class LevelState implements Renderable {
 
     private Point size;
 
-    private Tile[] map;
+    private GameObject[] map;
     private List<Collidable> objects;
 
     private List<Enemy> enemies;
@@ -34,7 +32,7 @@ public class LevelState implements Renderable {
 
     int cnt= 0;
 
-    public LevelState(Point size, Tile[] map, Player player) {
+    public LevelState(Point size, GameObject[] map, Player player) {
         this.size= size;
         this.map = map;
         this.player= player;
@@ -48,38 +46,76 @@ public class LevelState implements Renderable {
 
     @Override
     public void renderUpdate(Canvas canvas) {
+        handlePlayerInput();
+        //handleEnemies();
 
-        //GAME UPDATE
-        if (playerInput.isMoving()) {
-            //TODO: move player
-            player.move(playerInput.getMoveDir());
-        }
-
-        for(Collidable c : objects) {
-            c.checkCollision(this);
-        }
+        checkCollisions();
 
         //RENDER
         canvas.drawRGB(0, 0, 0);
 
         //render tiles
-        for(Tile t : map) {
-            t.render(canvas, viewPos);
+        for(GameObject t : map) {
+            t.render(canvas);
         }
 
         //render collidables
         for(Collidable c : objects) {
-            c.render(canvas, viewPos);
+            c.render(canvas);
         }
-
-
     }
 
     public InputHandler getInput() {
         return playerInput;
     }
 
-    public Tile getTileAt(Point colTile) {
+    public GameObject getTileAt(Point colTile) {
         return map[colTile.y * size.x + colTile.x];
+    }
+
+    private void handlePlayerInput() {
+        if(playerInput.bombSignal()) {
+            //TODO: drop bomb via player->BombPool
+            return;
+        }
+
+        if (playerInput.isMoving()) {
+            player.move(playerInput.getMoveDir());
+        }
+    }
+
+    private void checkCollisions() {
+        //detect & fix obstacle collisions
+        player.fixObstacleCols(getTargetTiles(player.getClosestTile(), player.getMoveVector()));
+        /*for(Enemy e : enemies) {
+            e.fixObstacleCols(getTargetTiles(e.getClosestTile(), e.getMoveVector()));
+        }*/
+    }
+
+    /**
+     * Fetches three possible collision tiles.
+     */
+    public List<GameObject> getTargetTiles(Point closestTile, Point moveDir) {
+        List<GameObject> tiles= new ArrayList<>();
+        boolean moveInY= moveDir.y != 0;
+        if(!moveInY && moveDir.x == 0)
+            return tiles;
+
+        Point tgLine= new Point(closestTile.x + moveDir.x, closestTile.y + moveDir.y);
+        if(tgLine.y < 0)
+            tgLine.y= 0;
+        if(tgLine.x < 0)
+            tgLine.x= 0;
+
+
+        Log.d("kek", tgLine.toString() + " ; " + size.x + " : " + moveInY);
+        for(int i= -1; i < 2; i++) {
+            if(moveInY)
+                tiles.add(map[tgLine.y * size.x + tgLine.x + i]);
+            else
+                tiles.add(map[(tgLine.y + i) * size.x + tgLine.x]);
+        }
+
+        return tiles;
     }
 }

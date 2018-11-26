@@ -5,41 +5,54 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
 
+import com.kopecrad.dynablaster.game.infrastructure.ImageResources;
 import com.kopecrad.dynablaster.game.infrastructure.ScreenSettings;
 import com.kopecrad.dynablaster.game.objects.graphics.ObjectGraphics;
 
 /**
  * Any object in the game, that can be visible.
  */
-public abstract class GameObject {
+public class GameObject {
 
+    private static ImageResources imgRes;
     private static ScreenSettings screen;
 
-    private ObjectGraphics texture;
-    private Point mapPos;
+    private ObjectGraphics graphics;
 
-    public GameObject(int x, int y, ObjectGraphics texture) {
-        this.mapPos = new Point(x, y);
-        this.texture= texture;
+    private Point position;
+    private Rect boundingRect;
+
+    protected GameObject(int x, int y, ObjectGraphics graphics) {
+        setPosition(screen.calcPosition(x,y));
+        this.graphics= graphics;
+    }
+
+    public GameObject(int x, int y, String graphics) {
+        this(x, y, imgRes.getGraphics(graphics));
     }
 
     /**
      * Render call for this object.
      */
-    public void render(Canvas canvas, Point viewPos) {
-        canvas.drawBitmap(texture.getFrame(), null, getScreen().getTileRect(getMapPos(), viewPos), null);
+    public void render(Canvas canvas) {
+        canvas.drawBitmap(graphics.getFrame(), null, screen.getScreenRect(boundingRect), null);
     }
 
-    public Point getMapPos() {
-        return mapPos;
+    public Point getPosition() {
+        return position;
     }
 
     public void setPosition(Point p) {
-        mapPos= p;
+        position= p;
+        boundingRect= screen.getObjectRect(position);
     }
 
-    public static void setScreenSettings(ScreenSettings stg) {
-        screen= stg;
+    public void addPosition(Point p) {
+        setPosition(new Point(position.x + p.x, position.y + p.y));
+    }
+
+    public Rect getBoundingRect() {
+        return boundingRect;
     }
 
     protected ScreenSettings getScreen() {
@@ -47,6 +60,18 @@ public abstract class GameObject {
     }
 
     protected Bitmap getFrame() {
-        return texture.getFrame();
+        return graphics.getFrame();
+    }
+
+    public static void setScreenSettings(ScreenSettings stg) {
+        screen= stg;
+    }
+
+    public static void setImageResources(ImageResources res) {
+        imgRes= res;
+    }
+
+    public boolean isTraversable() {
+        return true;
     }
 }

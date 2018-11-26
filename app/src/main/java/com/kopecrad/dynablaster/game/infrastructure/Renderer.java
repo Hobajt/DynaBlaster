@@ -90,7 +90,6 @@ public class Renderer implements Runnable, SurfaceHolder.Callback  {
 
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int format, int width, int height) {
-        Log.d("kek", "Surface Changed");
         screen.updateSize(width, height);
     }
 

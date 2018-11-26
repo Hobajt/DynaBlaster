@@ -4,9 +4,9 @@ import android.graphics.Point;
 
 import com.kopecrad.dynablaster.game.infrastructure.level.LevelState;
 import com.kopecrad.dynablaster.game.infrastructure.level.WinConditions;
-import com.kopecrad.dynablaster.game.objects.creature.CreatureFactory;
-import com.kopecrad.dynablaster.game.objects.creature.Player;
-import com.kopecrad.dynablaster.game.objects.tile.Tile;
+import com.kopecrad.dynablaster.game.objects.GameObject;
+import com.kopecrad.dynablaster.game.objects.collidable.creature.CreatureFactory;
+import com.kopecrad.dynablaster.game.objects.collidable.creature.Player;
 import com.kopecrad.dynablaster.game.objects.tile.TileFactory;
 import com.kopecrad.dynablaster.game.objects.tile.TileType;
 import com.kopecrad.dynablaster.game.objects.tile.TilesetType;
@@ -80,7 +80,7 @@ public class LevelData {
      */
     public LevelState generateState() {
         //create tiles from map array
-        Tile[] tiles= generateTiles();
+        GameObject[] tiles= generateTiles();
 
         //create enemies
 
@@ -91,8 +91,8 @@ public class LevelData {
         return new LevelState(size, tiles, player);
     }
 
-    private Tile[] generateTiles() {
-        Tile[] tiles= new Tile[size.x * size.y];
+    private GameObject[] generateTiles() {
+        GameObject[] tiles= new GameObject[size.x * size.y];
         for(int rowIdx= 0; rowIdx < size.y; rowIdx++) {
             for(int colIdx= 0; colIdx < size.x; colIdx++) {
                 int pos = rowIdx * size.x + colIdx;

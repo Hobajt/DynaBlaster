@@ -29,7 +29,8 @@ public class Scene {
         this.progress= progress;
         this.renderer= renderer;
         this.imgRes= new ImageResources(context);
-        this.levelLoader= new LevelLoader(context.getAssets());
+        AssetLoader.setManager(context.getAssets());
+        this.levelLoader= new LevelLoader();
 
         startGame();
     }

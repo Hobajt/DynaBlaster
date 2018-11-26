@@ -1,4 +1,4 @@
-package com.kopecrad.dynablaster.game.objects.creature;
+package com.kopecrad.dynablaster.game.objects.collidable.creature;
 
 import android.graphics.Point;
 
@@ -31,7 +31,7 @@ public class CreatureFactory extends ObjectFactory {
 
     private Player spawnPlayerLoc(Point pos) {
         if(player == null)
-            player= new Player(pos, getRes().getAnim("player"));
+            player= new Player(pos, getRes().getAnim("player_anim"));
         else
             player.setPosition(pos);
         return player;

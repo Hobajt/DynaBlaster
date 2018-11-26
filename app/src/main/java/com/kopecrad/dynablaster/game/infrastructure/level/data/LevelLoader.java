@@ -5,6 +5,7 @@ import android.graphics.Point;
 import android.util.Log;
 import android.util.Xml;
 
+import com.kopecrad.dynablaster.game.infrastructure.AssetLoader;
 import com.kopecrad.dynablaster.game.infrastructure.level.WinConditions;
 import com.kopecrad.dynablaster.game.objects.tile.TilesetType;
 
@@ -19,14 +20,8 @@ import java.util.List;
 /**
  * Manages level loading and parsing from XML to LevelData object.
  */
-public class LevelLoader {
+public class LevelLoader extends AssetLoader {
     public static final String namespace= null;
-
-    private AssetManager manager;
-
-    public LevelLoader(AssetManager manager) {
-        this.manager= manager;
-    }
 
     public LevelData loadLevel(int levelID) {
         String filename= "levels/level" + levelID + ".xml";
@@ -276,25 +271,5 @@ public class LevelLoader {
             parser.nextTag();
         }
         return result;
-    }
-
-    /**
-     * Skips content of the xml element
-     */
-    private void skip(XmlPullParser parser) throws XmlPullParserException, IOException {
-        if (parser.getEventType() != XmlPullParser.START_TAG) {
-            throw new IllegalStateException();
-        }
-        int depth = 1;
-        while (depth != 0) {
-            switch (parser.next()) {
-                case XmlPullParser.END_TAG:
-                    depth--;
-                    break;
-                case XmlPullParser.START_TAG:
-                    depth++;
-                    break;
-            }
-        }
     }
 }

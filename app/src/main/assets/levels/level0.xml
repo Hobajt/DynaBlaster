@@ -4,7 +4,7 @@
         <name>Default Level</name>
     </description>
     <settings>
-        <playerSpawn x="3" y="3" />
+        <playerSpawn x="5" y="3" />
         <tileset>0</tileset>
         <winConditions>
             <goal>0</goal>

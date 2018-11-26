@@ -4,9 +4,13 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.kopecrad.dynablaster.R;
+import com.kopecrad.dynablaster.game.objects.GameObject;
 import com.kopecrad.dynablaster.game.objects.ObjectFactory;
 import com.kopecrad.dynablaster.game.objects.graphics.Animation;
 import com.kopecrad.dynablaster.game.objects.graphics.ObjectGraphics;
@@ -37,6 +41,7 @@ public class ImageResources {
         anims= new HashMap<>();
 
         ObjectFactory.setResourceRef(this);
+        GameObject.setImageResources(this);
     }
 
     /**
@@ -50,21 +55,29 @@ public class ImageResources {
         return textures.get(identifier);
     }
 
+    public Animation getAnim(String identifier) {
+        if(!anims.containsKey(identifier)) {
+            int sheetID= fetchDrawable(identifier);
+            Animation a= new Animation(identifier, BitmapFactory.decodeResource(res, sheetID), sheetID);
+            anims.put(identifier, a);
+        }
+        return anims.get(identifier);
+    }
+
+    public ObjectGraphics getGraphics(String identifier) {
+        if(identifier.endsWith("_anim"))
+            return getAnim(identifier);
+        else
+            return getTexture(identifier);
+    }
+
+    /**
+     * Attempts to load drawable resource id with provided string name.
+     */
     private int fetchDrawable(String identifier) {
         int id= res.getIdentifier(identifier, "drawable", packageName);
         if(id != 0)
             return id;
         return TEXTURE_DEFAULT;
-    }
-
-    public Animation getAnim(String identifier) {
-        if(!anims.containsKey(identifier)) {
-            //TODO: actually load !!
-            Animation a= new Animation(
-                    new Bitmap[] {BitmapFactory.decodeResource(res, fetchDrawable(identifier))}
-            );
-            anims.put(identifier, a);
-        }
-        return anims.get(identifier);
     }
 }
