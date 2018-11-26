@@ -3,9 +3,11 @@ package com.kopecrad.dynablaster.activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 
 import com.kopecrad.dynablaster.R;
+import com.kopecrad.dynablaster.game.infrastructure.InputHandler;
 import com.kopecrad.dynablaster.game.infrastructure.Renderer;
 import com.kopecrad.dynablaster.game.infrastructure.Scene;
 import com.kopecrad.dynablaster.game.infrastructure.level.data.LevelData;
@@ -18,6 +20,7 @@ public class GameActivity extends FullscreenActivity {
 
     private Renderer renderer;
     private Scene scene;
+    private InputHandler inp;
 
     private SharedPreferences prefs;
 
@@ -31,6 +34,7 @@ public class GameActivity extends FullscreenActivity {
         SurfaceView surfView= findViewById(R.id.surfaceView);
         renderer= new Renderer(surfView);
         scene= new Scene(this, new PlayerProgress(prefs), renderer);
+        inp= scene.getState().getInput();
     }
 
     @Override
@@ -43,5 +47,19 @@ public class GameActivity extends FullscreenActivity {
     protected void onResume() {
         super.onResume();
         renderer.resume();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                inp.playerInput(event.getX(), event.getY());
+                break;
+            case MotionEvent.ACTION_UP:
+                inp.playerInputEnded();
+                break;
+        }
+
+        return super.onTouchEvent(event);
     }
 }

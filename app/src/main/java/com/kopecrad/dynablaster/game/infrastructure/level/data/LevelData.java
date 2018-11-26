@@ -1,11 +1,11 @@
 package com.kopecrad.dynablaster.game.infrastructure.level.data;
 
 import android.graphics.Point;
-import android.util.Log;
 
-import com.kopecrad.dynablaster.game.infrastructure.ImageResources;
 import com.kopecrad.dynablaster.game.infrastructure.level.LevelState;
 import com.kopecrad.dynablaster.game.infrastructure.level.WinConditions;
+import com.kopecrad.dynablaster.game.objects.creature.CreatureFactory;
+import com.kopecrad.dynablaster.game.objects.creature.Player;
 import com.kopecrad.dynablaster.game.objects.tile.Tile;
 import com.kopecrad.dynablaster.game.objects.tile.TileFactory;
 import com.kopecrad.dynablaster.game.objects.tile.TileType;
@@ -82,10 +82,13 @@ public class LevelData {
         //create tiles from map array
         Tile[] tiles= generateTiles();
 
-
         //create enemies
+
+
         //spawn player
-        return new LevelState(size, tiles);
+        Player player= CreatureFactory.spawnPlayer(playerSpawn);
+
+        return new LevelState(size, tiles, player);
     }
 
     private Tile[] generateTiles() {

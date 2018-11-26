@@ -7,6 +7,10 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.kopecrad.dynablaster.R;
+import com.kopecrad.dynablaster.game.objects.ObjectFactory;
+import com.kopecrad.dynablaster.game.objects.graphics.Animation;
+import com.kopecrad.dynablaster.game.objects.graphics.ObjectGraphics;
+import com.kopecrad.dynablaster.game.objects.graphics.Texture;
 import com.kopecrad.dynablaster.game.objects.tile.TileFactory;
 
 import java.util.HashMap;
@@ -22,27 +26,27 @@ public class ImageResources {
     private String packageName;
     private Resources res;
 
-    //TODO: maybe replace Bitmap with some wrapper class to allow Animations
-    private Map<String, Bitmap> textures;
+    private Map<String, Texture> textures;
+    private Map<String, Animation> anims;
 
     public ImageResources(Context context) {
         this.res= context.getResources();
         packageName= context.getPackageName();
-        textures= new HashMap<>();
 
-        TileFactory.setResourceRef(this);
+        textures= new HashMap<>();
+        anims= new HashMap<>();
+
+        ObjectFactory.setResourceRef(this);
     }
 
     /**
      * Fetches given texture.
      */
-    public Bitmap getTexture(String identifier) {
+    public Texture getTexture(String identifier) {
         if(!textures.containsKey(identifier)) {
-            Bitmap bmp = BitmapFactory.decodeResource(res, fetchDrawable(identifier));
-            textures.put(identifier, bmp);
+            Texture t= new Texture(BitmapFactory.decodeResource(res, fetchDrawable(identifier)));
+            textures.put(identifier, t);
         }
-
-
         return textures.get(identifier);
     }
 
@@ -51,5 +55,16 @@ public class ImageResources {
         if(id != 0)
             return id;
         return TEXTURE_DEFAULT;
+    }
+
+    public Animation getAnim(String identifier) {
+        if(!anims.containsKey(identifier)) {
+            //TODO: actually load !!
+            Animation a= new Animation(
+                    new Bitmap[] {BitmapFactory.decodeResource(res, fetchDrawable(identifier))}
+            );
+            anims.put(identifier, a);
+        }
+        return anims.get(identifier);
     }
 }

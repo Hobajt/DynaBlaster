@@ -27,5 +27,7 @@
         <row>10000000000001</row>
         <row>11111111111111</row>
     </map>
-    <enemies></enemies>
+    <enemies>
+        <enemy id="0" amount="3"/>
+    </enemies>
 </level>

@@ -40,4 +40,8 @@ public class Scene {
         levelState= levelData.generateState();
         renderer.registerRenderable(levelState);
     }
+
+    public LevelState getState() {
+        return levelState;
+    }
 }
