@@ -6,11 +6,13 @@ import com.kopecrad.dynablaster.game.infrastructure.level.LevelState;
 import com.kopecrad.dynablaster.game.infrastructure.level.WinConditions;
 import com.kopecrad.dynablaster.game.objects.GameObject;
 import com.kopecrad.dynablaster.game.objects.collidable.creature.CreatureFactory;
+import com.kopecrad.dynablaster.game.objects.collidable.creature.Enemy;
 import com.kopecrad.dynablaster.game.objects.collidable.creature.Player;
 import com.kopecrad.dynablaster.game.objects.tile.TileFactory;
 import com.kopecrad.dynablaster.game.objects.tile.TileType;
 import com.kopecrad.dynablaster.game.objects.tile.TilesetType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -88,7 +90,7 @@ public class LevelData {
         //spawn player
         Player player= CreatureFactory.spawnPlayer(playerSpawn);
 
-        return new LevelState(size, tiles, player);
+        return new LevelState(size, tiles, player, new ArrayList<Enemy>());
     }
 
     private GameObject[] generateTiles() {
@@ -96,7 +98,7 @@ public class LevelData {
         for(int rowIdx= 0; rowIdx < size.y; rowIdx++) {
             for(int colIdx= 0; colIdx < size.x; colIdx++) {
                 int pos = rowIdx * size.x + colIdx;
-                tiles[pos]= TileFactory.CreateTile(rowIdx, colIdx, tileset, TileType.getByID(map[pos]));
+                tiles[pos]= TileFactory.CreateTile(colIdx, rowIdx, tileset, TileType.getByID(map[pos]));
             }
         }
         return tiles;

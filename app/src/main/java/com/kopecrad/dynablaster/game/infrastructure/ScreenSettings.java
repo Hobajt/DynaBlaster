@@ -63,8 +63,8 @@ public class ScreenSettings {
     }
 
     public Point getClosestIndex(Point position) {
-        boolean addX= position.x % TILE_SIZE > TILE_SIZE_HALF * 1.2;
-        boolean addY= position.y % TILE_SIZE > TILE_SIZE_HALF * 1.2;
+        boolean addX= position.x % TILE_SIZE > TILE_SIZE_HALF;
+        boolean addY= position.y % TILE_SIZE > TILE_SIZE_HALF;
 
         return new Point(
                 position.x / TILE_SIZE + (addX ? 1 : 0),

@@ -1,6 +1,7 @@
 package com.kopecrad.dynablaster.game.objects.collidable.creature;
 
 import android.graphics.Point;
+import android.util.Log;
 
 import com.kopecrad.dynablaster.game.objects.GameObject;
 import com.kopecrad.dynablaster.game.objects.collidable.Collidable;
@@ -44,16 +45,16 @@ public abstract class Creature extends Collidable {
      * If there are any, executes reverse move.
      */
     public void fixObstacleCols(List<GameObject> colTiles) {
+        Point resPoint;
         for(GameObject go : colTiles) {
             if(go.isTraversable())
                 continue;
 
             try {
                 Collidable c = (Collidable) go;
-                if (c.isColliding(this)) {
-                    //Log.d("kek", "HONEY DETECTED BBapper");
-
-                    revertMove(c.getPosition());
+                resPoint= c.isColliding(this);
+                if(resPoint != null) {
+                    addPosition(new Point(resPoint.x * Math.abs(moveVector.x), resPoint.y * Math.abs(moveVector.y)));
                     return;
                 }
             } catch (ClassCastException e) {}
@@ -65,9 +66,5 @@ public abstract class Creature extends Collidable {
      */
     public Point getClosestTile() {
         return getScreen().getClosestIndex(getPosition());
-    }
-
-    public Point getMoveVector() {
-        return moveVector;
     }
 }

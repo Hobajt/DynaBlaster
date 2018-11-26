@@ -32,10 +32,11 @@ public class LevelState implements Renderable {
 
     int cnt= 0;
 
-    public LevelState(Point size, GameObject[] map, Player player) {
+    public LevelState(Point size, GameObject[] map, Player player, List<Enemy> enemies) {
         this.size= size;
         this.map = map;
         this.player= player;
+        this.enemies= enemies;
 
         objects= new ArrayList<>();
         objects.add(player);
@@ -86,34 +87,27 @@ public class LevelState implements Renderable {
 
     private void checkCollisions() {
         //detect & fix obstacle collisions
-        player.fixObstacleCols(getTargetTiles(player.getClosestTile(), player.getMoveVector()));
-        /*for(Enemy e : enemies) {
-            e.fixObstacleCols(getTargetTiles(e.getClosestTile(), e.getMoveVector()));
-        }*/
+        player.fixObstacleCols(getTargetTiles(player.getClosestTile()));
+        for(Enemy e : enemies) {
+            e.fixObstacleCols(getTargetTiles(e.getClosestTile()));
+        }
+
+        //TODO: collidable collisions - item picking, enemy eating, fire, portal
     }
 
     /**
      * Fetches three possible collision tiles.
      */
-    public List<GameObject> getTargetTiles(Point closestTile, Point moveDir) {
+    public List<GameObject> getTargetTiles(Point closestTile) {
         List<GameObject> tiles= new ArrayList<>();
-        boolean moveInY= moveDir.y != 0;
-        if(!moveInY && moveDir.x == 0)
-            return tiles;
 
-        Point tgLine= new Point(closestTile.x + moveDir.x, closestTile.y + moveDir.y);
-        if(tgLine.y < 0)
-            tgLine.y= 0;
-        if(tgLine.x < 0)
-            tgLine.x= 0;
-
-
-        Log.d("kek", tgLine.toString() + " ; " + size.x + " : " + moveInY);
+        //Log.d("kek", closestTile.toString());
         for(int i= -1; i < 2; i++) {
-            if(moveInY)
-                tiles.add(map[tgLine.y * size.x + tgLine.x + i]);
-            else
-                tiles.add(map[(tgLine.y + i) * size.x + tgLine.x]);
+            for(int j= -1; j < 2; j++) {
+                try {
+                    tiles.add(map[(closestTile.y + i) * size.x + closestTile.x + j]);
+                } catch (IndexOutOfBoundsException e) {}
+            }
         }
 
         return tiles;

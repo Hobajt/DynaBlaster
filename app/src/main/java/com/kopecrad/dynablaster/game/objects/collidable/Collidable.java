@@ -1,5 +1,6 @@
 package com.kopecrad.dynablaster.game.objects.collidable;
 
+import android.graphics.Point;
 import android.graphics.Rect;
 
 import com.kopecrad.dynablaster.game.infrastructure.level.LevelState;
@@ -19,11 +20,22 @@ public abstract class Collidable extends GameObject {
     /**
      * Detects whether provided collidable is interfering with this obstacle.
      */
-    public boolean isColliding(Collidable other) {
+    public Point isColliding(Collidable other) {
         Rect obs= getBoundingRect();
         Rect oth= other.getBoundingRect();
 
-        return (obs.left < oth.right && obs.right > oth.left &&
-                obs.top < oth.bottom && obs.bottom > oth.top);
+        if (obs.left < oth.right && obs.right > oth.left &&
+                obs.top < oth.bottom && obs.bottom > oth.top) {
+
+            Point p= new Point(obs.left - oth.right, obs.top - oth.bottom);
+            int x= obs.right - oth.left;
+            if(Math.abs(p.x) > Math.abs(x))
+                p.x= x;
+            x= obs.bottom - oth.top;
+            if(Math.abs(p.y) > Math.abs(x))
+                p.y= x;
+            return p;
+        }
+        return null;
     }
 }
