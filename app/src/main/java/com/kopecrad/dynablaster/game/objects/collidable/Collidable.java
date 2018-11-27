@@ -7,6 +7,8 @@ import com.kopecrad.dynablaster.game.infrastructure.level.LevelState;
 import com.kopecrad.dynablaster.game.objects.GameObject;
 import com.kopecrad.dynablaster.game.objects.graphics.ObjectGraphics;
 
+import java.util.List;
+
 public abstract class Collidable extends GameObject {
 
     public Collidable(int x, int y, ObjectGraphics graphics) {
@@ -18,9 +20,11 @@ public abstract class Collidable extends GameObject {
     }
 
     /**
+     * AABB collision detection and response.
      * Detects whether provided collidable is interfering with this obstacle.
+     * Returns counter move (or null when no collision happened).
      */
-    public Point isColliding(Collidable other) {
+    public Point detectAndRepairCollision(Collidable other) {
         Rect obs= getBoundingRect();
         Rect oth= other.getBoundingRect();
 
@@ -38,4 +42,40 @@ public abstract class Collidable extends GameObject {
         }
         return null;
     }
+
+    /**
+     * AABB Collision check - no fixing, only true/false value.
+     */
+    public boolean isColliding(Collidable other) {
+        Rect obs= getBoundingRect();
+        Rect oth= other.getBoundingRect();
+
+        return (obs.left < oth.right && obs.right > oth.left &&
+                obs.top < oth.bottom && obs.bottom > oth.top);
+    }
+
+    /**
+     * Detects if this collidable collides with any other object.
+     * If it does, peerCollision() is called on other colliding objects.
+     * Returns true if object should get deleted.
+     */
+    public boolean fixPeerCols(List<Collidable> objects) {
+        boolean collisionRes= false;
+        for(Collidable c : objects) {
+            if(isColliding(c)) {
+                collisionRes= peerCollision(c.getRank());
+            }
+        }
+
+        return collisionRes;
+    }
+
+    public abstract CollidableRank getRank();
+
+    /**
+     * Triggered when object collides with other collidable.
+     * Use for logic implementation - dealing damage, item picking, portal entering...
+     * Returns true when this object is removed in the process.
+     */
+    protected abstract boolean peerCollision(CollidableRank other);
 }

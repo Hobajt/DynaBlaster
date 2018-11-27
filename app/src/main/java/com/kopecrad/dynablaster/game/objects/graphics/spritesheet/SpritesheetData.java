@@ -5,16 +5,17 @@ import android.graphics.Point;
 
 public class SpritesheetData {
 
-    private Point size;
-
     private int count;
     private int colCount;
     private int rowCount;
 
-    public SpritesheetData(int colCount, int rowCount, int count) {
+    private int speed;
+
+    public SpritesheetData(int colCount, int rowCount, int count, int speedPercentage) {
         this.count = count;
         this.colCount = colCount;
         this.rowCount = rowCount;
+        this.speed= 100/speedPercentage;
     }
 
     public int getColCount() {
@@ -31,5 +32,9 @@ public class SpritesheetData {
 
     public int getCount() {
         return count;
+    }
+
+    public int getSpeed() {
+        return speed;
     }
 }

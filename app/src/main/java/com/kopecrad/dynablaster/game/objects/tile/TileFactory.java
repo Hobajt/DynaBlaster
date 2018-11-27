@@ -10,7 +10,14 @@ import com.kopecrad.dynablaster.game.objects.collidable.Wall;
  */
 public class TileFactory extends ObjectFactory {
 
+    private static TilesetType tilesetCache;
+
+    public static GameObject CreateTile(int xPos, int yPos) {
+        return CreateTile(xPos, yPos, tilesetCache, TileType.GROUND);
+    }
+
     public static GameObject CreateTile(int xPos, int yPos, TilesetType tileset, TileType tile) {
+        tilesetCache= tileset;
         switch (tile) {
             case BLOCK:
                 return new Block(xPos, yPos, tile.getIdentifier(tileset));

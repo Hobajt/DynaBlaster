@@ -2,6 +2,7 @@ package com.kopecrad.dynablaster.game.objects.collidable.creature;
 
 import android.graphics.Point;
 
+import com.kopecrad.dynablaster.game.infrastructure.level.PlayerProgress;
 import com.kopecrad.dynablaster.game.objects.ObjectFactory;
 
 import java.util.HashMap;

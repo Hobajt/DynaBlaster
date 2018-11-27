@@ -2,6 +2,9 @@ package com.kopecrad.dynablaster.game.infrastructure.level;
 
 import android.content.SharedPreferences;
 
+import com.kopecrad.dynablaster.game.objects.collidable.Bomb;
+import com.kopecrad.dynablaster.game.objects.collidable.creature.Buffs;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,10 +26,7 @@ public class PlayerProgress {
     private int nextLevel;
     private int health;
     private int score;
-
-    //TODO: replace integer with Buff class
-    private List<Integer> buffs;
-    //serialize list to json when saving to preferences
+    private Buffs buffs;
 
     /**
      * Creates instance with already loaded progress values.
@@ -40,7 +40,7 @@ public class PlayerProgress {
      * Used in resetProgress - empty progress.
      */
     private PlayerProgress() {
-        buffs= new ArrayList<>();
+        buffs= new Buffs();
         nextLevel= START_LEVEL;
         health= START_HEALTH;
         score= 0;
@@ -63,7 +63,7 @@ public class PlayerProgress {
         pEdit.putInt(KEY_LEVEL, nextLevel);
         pEdit.putInt(KEY_HEALTH, health);
         pEdit.putInt(KEY_SCORE, score);
-        //TODO: store buffs
+        buffs.saveState(pEdit);
 
         pEdit.apply();
     }
@@ -75,8 +75,8 @@ public class PlayerProgress {
         nextLevel = prefs.getInt(KEY_LEVEL, START_LEVEL);
         health = prefs.getInt(KEY_HEALTH, START_HEALTH);
         score = prefs.getInt(KEY_SCORE, 0);
-        //TODO: restore buffs data
-        buffs= new ArrayList<>();
+        buffs= new Buffs(prefs);
+        Bomb.setProgressRef(this);
     }
 
     /**
@@ -98,5 +98,9 @@ public class PlayerProgress {
 
     public int getScore() {
         return score;
+    }
+
+    public Buffs getBuffs() {
+        return buffs;
     }
 }

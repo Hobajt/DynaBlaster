@@ -10,4 +10,9 @@ public class Wall extends Obstacle {
     public Wall(int x, int y, String graphics) {
         super(x, y, graphics);
     }
+
+    @Override
+    protected boolean peerCollision(CollidableRank other) {
+        return false;
+    }
 }

@@ -1,5 +1,7 @@
 package com.kopecrad.dynablaster.game.objects.graphics.spritesheet;
 
+import android.util.Log;
+
 import java.util.Map;
 
 public class SpritesheetDataPool {
@@ -17,6 +19,7 @@ public class SpritesheetDataPool {
         if(data.containsKey(identifier))
             return data.get(identifier);
 
+        Log.d("kek", "Failed to load anim");
         return data.get(DEFAULT_SPRITE);
     }
 }

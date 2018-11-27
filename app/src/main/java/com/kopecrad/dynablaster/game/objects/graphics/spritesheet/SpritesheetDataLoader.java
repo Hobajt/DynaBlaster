@@ -50,6 +50,7 @@ public class SpritesheetDataLoader extends AssetLoader {
                 }
 
                 String name = parser.getName();
+                Log.d("spriteXML", "Name: " + name);
                 // Starts by looking for the entry tag
                 if (name.equals("sheet")) {
                     if(!readData(parser, data)) {
@@ -71,10 +72,12 @@ public class SpritesheetDataLoader extends AssetLoader {
     private boolean readData(XmlPullParser parser, Map<String,SpritesheetData> data) {
         try {
             parser.require(XmlPullParser.START_TAG, namespace, "sheet");
+
             String name = null;
             Integer colCount = null;
             Integer rowCount = null;
             Integer count= null;
+            Integer speed = null;
 
             for (int i = 0; i < parser.getAttributeCount(); i++) {
                 String attName = parser.getAttributeName(i);
@@ -91,13 +94,20 @@ public class SpritesheetDataLoader extends AssetLoader {
                     case "count":
                         count = Integer.parseInt(parser.getAttributeValue(i));
                         break;
+                    case "speed":
+                        speed = Integer.parseInt(parser.getAttributeValue(i));
+                        break;
                 }
             }
 
             if(rowCount == null || colCount == null || name == null || count == null)
                 return false;
 
-            data.put(name, new SpritesheetData(colCount, rowCount, count));
+            if(speed == null)
+                speed= 100;
+
+            data.put(name, new SpritesheetData(colCount, rowCount, count, speed));
+            parser.next();
             return true;
         } catch (XmlPullParserException | IOException e) {
             Log.d("spriteXML", "Error during sheet data loading.");

@@ -52,7 +52,7 @@ public abstract class Creature extends Collidable {
 
             try {
                 Collidable c = (Collidable) go;
-                resPoint= c.isColliding(this);
+                resPoint= c.detectAndRepairCollision(this);
                 if(resPoint != null) {
                     addPosition(new Point(resPoint.x * Math.abs(moveVector.x), resPoint.y * Math.abs(moveVector.y)));
                     return;

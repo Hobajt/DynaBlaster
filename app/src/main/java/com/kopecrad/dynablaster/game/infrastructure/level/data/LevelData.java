@@ -3,6 +3,7 @@ package com.kopecrad.dynablaster.game.infrastructure.level.data;
 import android.graphics.Point;
 
 import com.kopecrad.dynablaster.game.infrastructure.level.LevelState;
+import com.kopecrad.dynablaster.game.infrastructure.level.PlayerProgress;
 import com.kopecrad.dynablaster.game.infrastructure.level.WinConditions;
 import com.kopecrad.dynablaster.game.objects.GameObject;
 import com.kopecrad.dynablaster.game.objects.collidable.creature.CreatureFactory;
@@ -80,7 +81,7 @@ public class LevelData {
      * Creates initial state for the level.
      * Generates level tiles and objects.
      */
-    public LevelState generateState() {
+    public LevelState generateState(PlayerProgress progress) {
         //create tiles from map array
         GameObject[] tiles= generateTiles();
 
@@ -89,6 +90,7 @@ public class LevelData {
 
         //spawn player
         Player player= CreatureFactory.spawnPlayer(playerSpawn);
+        player.setProgress(progress);
 
         return new LevelState(size, tiles, player, new ArrayList<Enemy>());
     }

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
+import android.widget.TextView;
 
 import com.kopecrad.dynablaster.R;
 import com.kopecrad.dynablaster.game.infrastructure.InputHandler;
@@ -33,7 +34,7 @@ public class GameActivity extends FullscreenActivity {
 
         SurfaceView surfView= findViewById(R.id.surfaceView);
         renderer= new Renderer(surfView);
-        scene= new Scene(this, new PlayerProgress(prefs), renderer);
+        scene= new Scene(this, new PlayerProgress(prefs), renderer, (TextView) findViewById(R.id.playerHealth));
         inp= scene.getState().getInput();
     }
 

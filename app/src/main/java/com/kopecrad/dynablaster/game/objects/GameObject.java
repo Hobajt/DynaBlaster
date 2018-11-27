@@ -6,6 +6,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 
 import com.kopecrad.dynablaster.game.infrastructure.ImageResources;
+import com.kopecrad.dynablaster.game.infrastructure.Scene;
 import com.kopecrad.dynablaster.game.infrastructure.ScreenSettings;
 import com.kopecrad.dynablaster.game.objects.graphics.ObjectGraphics;
 
@@ -16,6 +17,7 @@ public class GameObject {
 
     private static ImageResources imgRes;
     private static ScreenSettings screen;
+    private static Scene scene;
 
     private ObjectGraphics graphics;
 
@@ -71,7 +73,19 @@ public class GameObject {
         imgRes= res;
     }
 
+    public static void setSceneRef(Scene s) {
+        scene= s;
+    }
+
     public boolean isTraversable() {
         return true;
+    }
+
+    protected Scene getScene() {
+        return scene;
+    }
+
+    public Point getMapPos() {
+        return getScreen().getClosestIndex(getPosition());
     }
 }
