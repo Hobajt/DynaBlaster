@@ -9,7 +9,7 @@ public class SpritesheetData {
     private int colCount;
     private int rowCount;
 
-    private int speed;
+    private float speed;
 
     public SpritesheetData(int colCount, int rowCount, int count, int speedPercentage) {
         this.count = count;
@@ -34,7 +34,7 @@ public class SpritesheetData {
         return count;
     }
 
-    public int getSpeed() {
+    public float getSpeed() {
         return speed;
     }
 }

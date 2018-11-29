@@ -4,16 +4,22 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.Log;
 
+import com.kopecrad.dynablaster.game.infrastructure.level.LevelState;
+
 /**
  * Contains values related to screen dimensions.
  * Is used to properly position textures on screen.
  */
 public class ScreenSettings {
 
+    private static LevelState levelState;
+
 //    public static final int TILES_PER_SMALLER_DIM = 12;
 
-    public static final int TILE_SIZE = 64;
-    public static final int TILE_SIZE_HALF = TILE_SIZE / 2;
+    public static int TILE_SIZE = 64;
+    public static int CREATURE_REDUCTION = TILE_SIZE / 5;
+    public static int PLAYER_ADDITION = 4*TILE_SIZE / 10;//(int)(TILE_SIZE * 0.4f);
+    public static int TILE_SIZE_HALF = TILE_SIZE / 2;
 //    private Point tileCount;
 
     private Point viewPos;
@@ -24,8 +30,12 @@ public class ScreenSettings {
         InputHandler.setScreenRef(this);
     }
 
+    public static void setStateRef(LevelState state) {
+        levelState= state;
+    }
+
     public void updateSize(int w, int h) {
-        screenCenter = new Point(w/2, h/2);
+        rescale(w, h);
     }
 
     public Point getScreenCenter() {
@@ -79,5 +89,48 @@ public class ScreenSettings {
         else {
             return new Point(colTilePos.x - moveVector.x * TILE_SIZE, myPos.y);
         }
+    }
+
+    public Rect getCreatureRect(Point realPos) {
+        return new Rect(
+                realPos.x + CREATURE_REDUCTION,
+                realPos.y + CREATURE_REDUCTION,
+                realPos.x+TILE_SIZE  - CREATURE_REDUCTION,
+                realPos.y+TILE_SIZE - CREATURE_REDUCTION
+        );
+    }
+
+    public Rect getScreenRectCreature(Rect boundingRect) {
+        return new Rect(
+                boundingRect.left - CREATURE_REDUCTION - viewPos.x,
+                boundingRect.top - CREATURE_REDUCTION - viewPos.y,
+                boundingRect.right + CREATURE_REDUCTION - viewPos.x,
+                boundingRect.bottom + CREATURE_REDUCTION - viewPos.y
+        );
+    }
+
+    public Rect getScreenRectPlayer(Rect boundingRect) {
+        return new Rect(
+                boundingRect.left - (PLAYER_ADDITION/2) - viewPos.x,
+                boundingRect.top - PLAYER_ADDITION - viewPos.y,
+                boundingRect.right + (PLAYER_ADDITION/2) - viewPos.x,
+                boundingRect.bottom - viewPos.y
+        );
+    }
+
+    private void rescale(int w, int h) {
+        int oldTileSize= TILE_SIZE;
+        TILE_SIZE= w > h ? h/12 : w/12;
+        screenCenter = new Point(w/2, h/2);
+        updateMeasures();
+
+        if(levelState != null)
+            levelState.rescale(oldTileSize);
+    }
+
+    private void updateMeasures() {
+        CREATURE_REDUCTION = TILE_SIZE / 5;
+        PLAYER_ADDITION = 4*TILE_SIZE / 10;//(int)(TILE_SIZE * 0.4f);
+        TILE_SIZE_HALF = TILE_SIZE / 2;
     }
 }

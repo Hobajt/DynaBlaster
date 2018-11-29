@@ -11,8 +11,11 @@ import java.util.List;
 
 public abstract class Collidable extends GameObject {
 
+    private int lastFireID;
+
     public Collidable(int x, int y, ObjectGraphics graphics) {
         super(x, y, graphics);
+        lastFireID= -1;
     }
 
     public Collidable(int x, int y, String graphics) {
@@ -62,8 +65,11 @@ public abstract class Collidable extends GameObject {
     public boolean fixPeerCols(List<Collidable> objects) {
         boolean collisionRes= false;
         for(Collidable c : objects) {
+            if(c == this)
+                continue;
+
             if(isColliding(c)) {
-                collisionRes= peerCollision(c.getRank());
+                collisionRes= peerCollision(c.getRank(), c.getID());
             }
         }
 
@@ -77,5 +83,17 @@ public abstract class Collidable extends GameObject {
      * Use for logic implementation - dealing damage, item picking, portal entering...
      * Returns true when this object is removed in the process.
      */
-    protected abstract boolean peerCollision(CollidableRank other);
+    protected abstract boolean peerCollision(CollidableRank other, int fireID);
+
+    protected void setLastFireID(int lastFireID) {
+        this.lastFireID = lastFireID;
+    }
+
+    protected boolean isFireUnique(int fireID) {
+        return fireID != lastFireID;
+    }
+
+    protected int getID() {
+        return -1;
+    }
 }

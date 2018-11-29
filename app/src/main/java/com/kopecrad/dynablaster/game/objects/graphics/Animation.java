@@ -5,6 +5,7 @@ import android.graphics.Point;
 import android.util.Log;
 
 import com.kopecrad.dynablaster.game.infrastructure.ImageResources;
+import com.kopecrad.dynablaster.game.infrastructure.level.LevelState;
 import com.kopecrad.dynablaster.game.objects.graphics.spritesheet.SpritesheetData;
 import com.kopecrad.dynablaster.game.objects.graphics.spritesheet.SpritesheetDataPool;
 
@@ -13,16 +14,25 @@ import java.util.List;
 
 public class Animation implements ObjectGraphics {
 
-    public static final int FRAME_RATE = 3;
+    private static final float ANIM_SPEED_BASE = 10;
 
     private static SpritesheetDataPool sData;
 
-    private int innerCounter;
+    private float innerCounter;
 
-    private int speedDelay;
+    private float speedDelay;
 
     private Bitmap[] frames;
     private int frame;
+
+    public void update() {
+        innerCounter += LevelState.getDeltaTime();
+        if(innerCounter >= speedDelay) {
+            innerCounter = 0;
+            if (++frame >= frames.length - 1)
+                frame = 0;
+        }
+    }
 
     public Animation(String identifier, Bitmap sheet, int sheetID) {
         frame= 0;
@@ -37,16 +47,7 @@ public class Animation implements ObjectGraphics {
 
     @Override
     public Bitmap getFrame() {
-        return frames[nextFrame()];
-    }
-
-    public int nextFrame() {
-        if(++innerCounter >= FRAME_RATE * speedDelay) {
-            innerCounter= 0;
-            if (++frame >= frames.length - 1)
-                frame = 0;
-        }
-        return frame;
+        return frames[frame];
     }
 
     private Bitmap[] processSpritesheet(Bitmap sheet, String identifier) {
@@ -57,7 +58,7 @@ public class Animation implements ObjectGraphics {
 
         Point size= data.getImageSize(sheet);
         int count= data.getCount();
-        speedDelay= data.getSpeed();
+        speedDelay= data.getSpeed() / ANIM_SPEED_BASE;
 
         List<Bitmap> bmp= new ArrayList<>();
         for(int i= 0; i < data.getRowCount(); i++) {

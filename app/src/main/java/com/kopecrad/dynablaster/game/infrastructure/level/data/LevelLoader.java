@@ -6,6 +6,7 @@ import android.util.Log;
 import android.util.Xml;
 
 import com.kopecrad.dynablaster.game.infrastructure.AssetLoader;
+import com.kopecrad.dynablaster.game.infrastructure.EnemyData;
 import com.kopecrad.dynablaster.game.infrastructure.level.WinConditions;
 import com.kopecrad.dynablaster.game.objects.tile.TilesetType;
 
@@ -85,8 +86,13 @@ public class LevelLoader extends AssetLoader {
                     }
                     Log.d("loadXML", "LoadLevel:: Map loaded");
                     break;
-//                case "enemies":
-//                    break;
+                case "enemies":
+                    if(!loadEnemies(data, parser)) {
+                        Log.d("loadXML", "LoadLevel:: failed to load enemies");
+                        return null;
+                    }
+                    Log.d("loadXML", "LoadLevel:: Enemies loaded");
+                    break;
                 default:
                     parser.next();
             }
@@ -94,6 +100,61 @@ public class LevelLoader extends AssetLoader {
 
         Log.d("loadXML", "LoadLevel:: Level data loading finished.");
         return data;
+    }
+
+    private boolean loadEnemies(LevelData data, XmlPullParser parser) {
+        List<EnemyData> ed= new ArrayList<>();
+
+        try {
+            parser.require(XmlPullParser.START_TAG, namespace, "enemies");
+
+            while (parser.next() != XmlPullParser.END_TAG) {
+                if (parser.getEventType() != XmlPullParser.START_TAG)
+                    continue;
+
+                if(!parser.getName().equals("enemy"))
+                    continue;
+
+                readEnemy(ed, parser);
+            }
+
+            data.enemies= ed;
+            return true;
+
+        } catch (IOException | XmlPullParserException e) {}
+        return false;
+    }
+
+    private boolean readEnemy(List<EnemyData> enemies, XmlPullParser parser) throws IOException, XmlPullParserException {
+        parser.require(XmlPullParser.START_TAG, namespace, "enemy");
+
+        Integer id= null;
+        Integer count= null;
+
+        try {
+            for (int i = 0; i < parser.getAttributeCount(); i++) {
+                String attName = parser.getAttributeName(i);
+                switch (attName) {
+                    case "id":
+                        id = Integer.parseInt(parser.getAttributeValue(i));
+                        break;
+                    case "count":
+                        count = Integer.parseInt(parser.getAttributeValue(i));
+                        break;
+                }
+            }
+
+            if (id == null)
+                return false;
+
+            if (count == null)
+                count = 1;
+
+            enemies.add(new EnemyData(count, id));
+            parser.next();
+            return true;
+        } catch (NumberFormatException e) {}
+        return false;
     }
 
     /**

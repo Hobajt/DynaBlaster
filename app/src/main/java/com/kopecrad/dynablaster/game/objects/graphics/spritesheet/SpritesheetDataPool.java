@@ -2,6 +2,8 @@ package com.kopecrad.dynablaster.game.objects.graphics.spritesheet;
 
 import android.util.Log;
 
+import com.kopecrad.dynablaster.game.objects.graphics.Animation;
+
 import java.util.Map;
 
 public class SpritesheetDataPool {

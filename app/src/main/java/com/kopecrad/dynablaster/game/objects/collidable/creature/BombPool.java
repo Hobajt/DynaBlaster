@@ -83,4 +83,14 @@ public class BombPool {
             return 0;
         return bombPointer+1;
     }
+
+    public void updateCount(int bombCap) {
+        this.bombCap= bombCap;
+        if(bombCap > bombs.size()) {
+            //add new bombs
+            for(int i= 0; i < bombCap - bombs.size(); i++) {
+                bombs.add(new Bomb());
+            }
+        }
+    }
 }

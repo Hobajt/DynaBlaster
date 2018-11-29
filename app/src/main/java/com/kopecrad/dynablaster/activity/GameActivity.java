@@ -11,6 +11,8 @@ import com.kopecrad.dynablaster.R;
 import com.kopecrad.dynablaster.game.infrastructure.InputHandler;
 import com.kopecrad.dynablaster.game.infrastructure.Renderer;
 import com.kopecrad.dynablaster.game.infrastructure.Scene;
+import com.kopecrad.dynablaster.game.infrastructure.level.EnemyDescription;
+import com.kopecrad.dynablaster.game.infrastructure.level.data.EnemyDescLoader;
 import com.kopecrad.dynablaster.game.infrastructure.level.data.LevelData;
 import com.kopecrad.dynablaster.game.infrastructure.level.PlayerProgress;
 
@@ -34,6 +36,7 @@ public class GameActivity extends FullscreenActivity {
 
         SurfaceView surfView= findViewById(R.id.surfaceView);
         renderer= new Renderer(surfView);
+        EnemyDescription.setEnemyTableRef(new EnemyDescLoader(this));
         scene= new Scene(this, new PlayerProgress(prefs), renderer, (TextView) findViewById(R.id.playerHealth));
         inp= scene.getState().getInput();
     }

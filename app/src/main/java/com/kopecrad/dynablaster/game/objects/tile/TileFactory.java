@@ -24,7 +24,11 @@ public class TileFactory extends ObjectFactory {
             case WALL:
                 return new Wall(xPos, yPos, tile.getIdentifier(tileset));
             default:
-                return new GameObject(xPos, yPos, tile.getIdentifier(tileset));
+                String s= tile.getIdentifier(tileset);
+                if(s.equals("none"))
+                    return new Wall(xPos, yPos, "none");
+                else
+                    return new GameObject(xPos, yPos, tile.getIdentifier(tileset));
         }
     }
 }

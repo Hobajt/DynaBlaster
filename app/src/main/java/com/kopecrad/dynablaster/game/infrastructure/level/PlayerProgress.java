@@ -3,6 +3,7 @@ package com.kopecrad.dynablaster.game.infrastructure.level;
 import android.content.SharedPreferences;
 
 import com.kopecrad.dynablaster.game.objects.collidable.Bomb;
+import com.kopecrad.dynablaster.game.objects.collidable.ItemType;
 import com.kopecrad.dynablaster.game.objects.collidable.creature.Buffs;
 
 import java.util.ArrayList;

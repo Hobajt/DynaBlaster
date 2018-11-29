@@ -1,6 +1,7 @@
 package com.kopecrad.dynablaster.game.objects.collidable.creature;
 
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.util.Log;
 
 import com.kopecrad.dynablaster.game.objects.GameObject;
@@ -14,7 +15,9 @@ import java.util.List;
  */
 public abstract class Creature extends Collidable {
 
-    protected int speed= 5;
+    public static final int SPEED_BASE = 12;
+
+    protected int speed= SPEED_BASE;
 
     private Point moveVector;
 
@@ -25,6 +28,7 @@ public abstract class Creature extends Collidable {
 
     public Creature(int x, int y, String graphics) {
         super(x, y, graphics);
+        moveVector= new Point(0,0);
     }
 
     public void move(Point moveVector) {
@@ -66,5 +70,19 @@ public abstract class Creature extends Collidable {
      */
     public Point getClosestTile() {
         return getScreen().getClosestIndex(getPosition());
+    }
+
+    @Override
+    protected void setupBoundingRect() {
+        boundingRect= getScreen().getCreatureRect(getPosition());
+    }
+
+    protected Point getMoveVector() {
+        return moveVector;
+    }
+
+    @Override
+    protected Rect getScreenRect() {
+        return getScreen().getScreenRectCreature(boundingRect);
     }
 }

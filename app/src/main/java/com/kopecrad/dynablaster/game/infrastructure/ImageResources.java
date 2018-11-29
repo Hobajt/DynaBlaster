@@ -2,12 +2,7 @@ package com.kopecrad.dynablaster.game.infrastructure;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
-import android.widget.ImageView;
 
 import com.kopecrad.dynablaster.R;
 import com.kopecrad.dynablaster.game.objects.GameObject;
@@ -15,7 +10,6 @@ import com.kopecrad.dynablaster.game.objects.ObjectFactory;
 import com.kopecrad.dynablaster.game.objects.graphics.Animation;
 import com.kopecrad.dynablaster.game.objects.graphics.ObjectGraphics;
 import com.kopecrad.dynablaster.game.objects.graphics.Texture;
-import com.kopecrad.dynablaster.game.objects.tile.TileFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -79,5 +73,11 @@ public class ImageResources {
         if(id != 0)
             return id;
         return TEXTURE_DEFAULT;
+    }
+
+    public void updateAnimationFrames() {
+        for(Animation a : anims.values()) {
+            a.update();
+        }
     }
 }

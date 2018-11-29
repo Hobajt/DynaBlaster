@@ -1,6 +1,7 @@
 package com.kopecrad.dynablaster.game.objects.collidable;
 
 import android.graphics.Point;
+import android.util.Log;
 
 import com.kopecrad.dynablaster.game.objects.Updatable;
 
@@ -11,10 +12,12 @@ public class Fire extends Collidable implements Updatable {
     private static final String FIRE_GRAPHICS = "fire_anim";
 
     private long expireTimer;
+    private int fireID;
 
-    public Fire(int x, int y, long expireTimer) {
+    public Fire(int x, int y, long expireTimer, int fireID) {
         super(x, y, FIRE_GRAPHICS);
         this.expireTimer= expireTimer;
+        this.fireID= fireID;
     }
 
     @Override
@@ -28,7 +31,12 @@ public class Fire extends Collidable implements Updatable {
     }
 
     @Override
-    protected boolean peerCollision(CollidableRank other) {
+    protected boolean peerCollision(CollidableRank other, int fireID) {
         return false;
+    }
+
+    @Override
+    protected int getID() {
+        return fireID;
     }
 }

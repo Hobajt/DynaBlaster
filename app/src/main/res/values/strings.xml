@@ -3,6 +3,7 @@
     <string name="menu_quit">Quit</string>
     <string name="menu_options">Options</string>
     <string name="menu_back">Back</string>
+    <string name="menu_back_full">Back to Menu</string>
     <string name="menu_resetGame">Reset game progress</string>
 
     <string name="prefs_name">com.kopecrad.dynablaster.gameprefs</string>
@@ -10,4 +11,7 @@
     <string name="menu_scoreboard">Scoreboard</string>
     <string name="menu_gameNew">Start new game</string>
     <string name="menu_gameContinue">Continue</string>
+
+    <string name="menu_endText_won">You won!</string>
+    <string name="menu_endText_lost">You died.</string>
 </resources>
