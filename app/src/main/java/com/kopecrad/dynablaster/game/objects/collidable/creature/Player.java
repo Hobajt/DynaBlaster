@@ -33,9 +33,6 @@ public class Player extends Creature {
 
     @Override
     public void move(Point moveVector) {
-        int sp = (int)(speed * LevelState.getDeltaTime());
-        addPosition(new Point(moveVector.x * sp, moveVector.y * sp));
-
         super.move(moveVector);
         getScreen().setViewPos(getPosition());
     }

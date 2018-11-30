@@ -89,6 +89,7 @@ public class LevelState implements Renderable {
             }
             while(!validPos);
 
+            Log.d("kek", "enemy positioned at: " + x + ", " + y);
             e.setMapPosition(x,y);
         }
     }
@@ -126,7 +127,7 @@ public class LevelState implements Renderable {
 
     private void enemyUpdate() {
         for(Enemy e : enemies) {
-            //TODO: call enemy movement updates
+            e.aiUpdate(map, player);
         }
     }
 
@@ -134,6 +135,9 @@ public class LevelState implements Renderable {
         long now= System.currentTimeMillis();
         deltaTime= ((now - lastTick)/1000.f);
         lastTick= now;
+
+        if(deltaTime > 0.1f)
+            deltaTime= 0.1f;
     }
 
     private void render(Canvas canvas) {

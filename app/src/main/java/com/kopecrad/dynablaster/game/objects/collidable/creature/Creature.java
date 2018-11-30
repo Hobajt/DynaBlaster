@@ -4,6 +4,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.Log;
 
+import com.kopecrad.dynablaster.game.infrastructure.level.LevelState;
 import com.kopecrad.dynablaster.game.objects.GameObject;
 import com.kopecrad.dynablaster.game.objects.collidable.Collidable;
 import com.kopecrad.dynablaster.game.objects.graphics.ObjectGraphics;
@@ -32,6 +33,8 @@ public abstract class Creature extends Collidable {
     }
 
     public void move(Point moveVector) {
+        int sp = (int)(speed * LevelState.getDeltaTime());
+        addPosition(new Point(moveVector.x * sp, moveVector.y * sp));
         this.moveVector= moveVector;
     }
 

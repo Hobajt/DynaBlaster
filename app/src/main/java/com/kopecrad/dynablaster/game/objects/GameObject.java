@@ -122,6 +122,14 @@ public class GameObject {
         return f;
     }
 
+    public float getMapDistance(Point tg) {
+        Point position= getMapPos();
+        float f= (float)Math.sqrt(
+                (position.x - tg.x)*(position.x - tg.x) + (position.y - tg.y)*(position.y - tg.y)
+        );
+        return f;
+    }
+
     protected void changeTexture(String newGraphics) {
         //Log.d("kek", "New graphics: " + newGraphics);
         graphics= imgRes.getTexture(newGraphics);

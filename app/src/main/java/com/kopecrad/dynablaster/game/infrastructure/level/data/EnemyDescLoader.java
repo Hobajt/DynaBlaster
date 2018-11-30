@@ -88,8 +88,8 @@ public class EnemyDescLoader extends SQLiteOpenHelper {
         EnemyDescription ed=  new EnemyDescription(
             crs.getInt(crs.getColumnIndexOrThrow(COL_ID)),
             crs.getString(crs.getColumnIndexOrThrow(COL_GRAPHICS)),
-            crs.getInt(crs.getColumnIndexOrThrow(COL_HEALTH)),
-            crs.getInt(crs.getColumnIndexOrThrow(COL_SPEED))
+            crs.getInt(crs.getColumnIndexOrThrow(COL_SPEED)),
+            crs.getInt(crs.getColumnIndexOrThrow(COL_HEALTH))
         );
 
         crs.close();
