@@ -12,7 +12,7 @@ public class Item extends Collidable {
     public Item(Point mapPos, ItemType type, int fireID) {
         super(mapPos.x, mapPos.y, getItemGraphics(type));
         this.type= type;
-        setLastFireID(fireID);
+        fireIDInit(fireID);
     }
 
     private static String getItemGraphics(ItemType type) {
@@ -30,11 +30,7 @@ public class Item extends Collidable {
             return other == CollidableRank.PLAYER;
         }
 
-        if(isFireUnique(fireID)) {
-            setLastFireID(fireID);
-            return true;
-        }
-        return false;
+        return isFireUnique(fireID);
     }
 
     public ItemType getType() {

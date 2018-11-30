@@ -7,22 +7,215 @@
     android:orientation="vertical"
     tools:context=".activity.GameActivity">
 
-    <SurfaceView
-            android:id="@+id/surfaceView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:background="@color/topPanel"
+        android:baselineAligned="true"
+        android:orientation="horizontal"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp">
 
-        <TextView
-            android:id="@+id/playerHealth"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lives" />
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/panel_scoreImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:baselineAlignBottom="false"
+                android:contentDescription="@string/panel_score"
+                android:src="@drawable/score"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/panel_scoreTxt"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="4"
+                android:background="@color/black"
+                android:gravity="center|end"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/panel_scoreImg"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/panel_clockImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:baselineAlignBottom="false"
+                android:contentDescription="@string/panel_clock"
+                android:src="@drawable/clock"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/panel_clockTxt"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="4"
+                android:background="@color/black"
+                android:gravity="center|end"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/panel_clockImg"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/panel_livesImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:baselineAlignBottom="false"
+                android:contentDescription="@string/panel_lives"
+                android:src="@drawable/health"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/panel_livesTxt"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="4"
+                android:background="@color/black"
+                android:gravity="center|end"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/panel_livesImg"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
     </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <SurfaceView
+                android:id="@+id/surfaceView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/btn_left"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:contentDescription="@string/btn_movementCtrls"
+                android:src="@drawable/arrow_left"
+                android:clickable="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.015"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.768" />
+
+            <ImageView
+                android:id="@+id/btn_right"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:contentDescription="@string/btn_movementCtrls"
+                android:src="@drawable/arrow_right"
+                android:clickable="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.224"
+                app:layout_constraintStart_toEndOf="@+id/btn_left"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.768" />
+
+            <ImageView
+                android:id="@+id/btn_up"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/btn_movementCtrls"
+                android:src="@drawable/arrow_up"
+                android:clickable="true"
+                app:layout_constraintEnd_toStartOf="@+id/btn_right"
+                app:layout_constraintHorizontal_bias="0.545"
+                app:layout_constraintStart_toEndOf="@+id/btn_left"
+                app:layout_constraintTop_toTopOf="@+id/btn_right" />
+
+            <ImageView
+                android:id="@+id/btn_down"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/btn_movementCtrls"
+                android:src="@drawable/arrow_down"
+                android:clickable="true"
+                app:layout_constraintEnd_toStartOf="@+id/btn_right"
+                app:layout_constraintHorizontal_bias="0.578"
+                app:layout_constraintStart_toEndOf="@+id/btn_left"
+                app:layout_constraintTop_toBottomOf="@+id/btn_up" />
+
+            <ImageView
+                android:id="@+id/btn_bomb"
+                android:layout_width="100dp"
+                android:layout_height="101dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:clickable="true"
+                android:src="@drawable/btn_bomb"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.82"
+                app:layout_constraintStart_toEndOf="@+id/btn_right"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.878" />
+        </android.support.constraint.ConstraintLayout>
+
+    </FrameLayout>
 
 
 </LinearLayout>

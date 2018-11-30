@@ -13,5 +13,11 @@
     <string name="menu_gameContinue">Continue</string>
 
     <string name="menu_endText_won">You won!</string>
-    <string name="menu_endText_lost">You died.</string>
+    <string name="menu_endText_lostHealth">You died.</string>
+    <string name="menu_endText_lostTime">Time\'s up.</string>
+
+    <string name="panel_score">Player\'s score</string>
+    <string name="panel_clock">Time left</string>
+    <string name="panel_lives">Lives left</string>
+    <string name="btn_movementCtrls">Movement controls</string>
 </resources>

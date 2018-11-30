@@ -24,4 +24,8 @@ public class SpritesheetDataPool {
         Log.d("kek", "Failed to load anim");
         return data.get(DEFAULT_SPRITE);
     }
+
+    public boolean tryGetData(String identifier) {
+        return data.containsKey(identifier);
+    }
 }

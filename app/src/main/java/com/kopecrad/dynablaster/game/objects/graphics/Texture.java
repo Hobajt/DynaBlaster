@@ -13,4 +13,9 @@ public class Texture implements ObjectGraphics {
     public Bitmap getFrame() {
         return texture;
     }
+
+    @Override
+    public Animation getGhost() {
+        return null;
+    }
 }

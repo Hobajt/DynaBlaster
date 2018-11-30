@@ -16,22 +16,37 @@ public class Animation implements ObjectGraphics {
 
     private static final float ANIM_SPEED_BASE = 10;
 
+    private static ImageResources imgRes;
     private static SpritesheetDataPool sData;
 
     private float innerCounter;
 
     private float speedDelay;
+    private String animGhost;
 
     private Bitmap[] frames;
     private int frame;
+
+    public static void setResourceRef(ImageResources imageResources) {
+        imgRes= imageResources;
+    }
 
     public void update() {
         innerCounter += LevelState.getDeltaTime();
         if(innerCounter >= speedDelay) {
             innerCounter = 0;
-            if (++frame >= frames.length - 1)
+            if (++frame >= frames.length - 1) {
+                framesFlip();
                 frame = 0;
+            }
         }
+    }
+
+    protected Animation(Bitmap[] frames, float speedDelay) {
+        this.frames= frames;
+        this.speedDelay= speedDelay;
+        frame= 0;
+        innerCounter = 0;
     }
 
     public Animation(String identifier, Bitmap sheet, int sheetID) {
@@ -59,6 +74,7 @@ public class Animation implements ObjectGraphics {
         Point size= data.getImageSize(sheet);
         int count= data.getCount();
         speedDelay= data.getSpeed() / ANIM_SPEED_BASE;
+        animGhost= data.getGhost();
 
         List<Bitmap> bmp= new ArrayList<>();
         for(int i= 0; i < data.getRowCount(); i++) {
@@ -70,5 +86,24 @@ public class Animation implements ObjectGraphics {
         }
 
         return bmp.toArray(new Bitmap[bmp.size()]);
+    }
+
+    protected void framesFlip() {}
+
+    protected float getSpeedDelay() {
+        return speedDelay;
+    }
+
+    protected Bitmap[] getFrames() {
+        return frames;
+    }
+
+    @Override
+    public Animation getGhost() {
+        if(animGhost == null)
+            return null;
+
+        Log.d("kek", "Spawning ghost animation.");
+        return imgRes.getAnim(animGhost);
     }
 }

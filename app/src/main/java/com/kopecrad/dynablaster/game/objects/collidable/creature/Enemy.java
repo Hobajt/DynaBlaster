@@ -7,7 +7,10 @@ import com.kopecrad.dynablaster.game.infrastructure.ScreenSettings;
 import com.kopecrad.dynablaster.game.infrastructure.level.EnemyDescription;
 import com.kopecrad.dynablaster.game.infrastructure.level.LevelState;
 import com.kopecrad.dynablaster.game.objects.GameObject;
+import com.kopecrad.dynablaster.game.objects.Updatable;
+import com.kopecrad.dynablaster.game.objects.collidable.AnimPlayer;
 import com.kopecrad.dynablaster.game.objects.collidable.CollidableRank;
+import com.kopecrad.dynablaster.game.objects.graphics.Animation;
 import com.kopecrad.dynablaster.game.objects.graphics.ObjectGraphics;
 
 import java.util.ArrayList;
@@ -56,10 +59,10 @@ public class Enemy extends Creature {
         if(other != CollidableRank.FIRE)
             return false;
 
-        Log.d("kek", "Enemy collides with " + other.name() + ": " + fireID);
+        //Log.d("kek", "Enemy collides with " + other.name() + ": " + fireID);
         if(isFireUnique(fireID)) {
-            setLastFireID(fireID);
             //possible spot to implement multi-health enemies
+            Log.d("kek", "Enemy is dying!!!");
             return true;
         }
         return false;
@@ -121,6 +124,17 @@ public class Enemy extends Creature {
 
         } while(i != startPos);
 
+        return null;
+    }
+
+    /**
+     * For dying animation implementation.
+     * @return
+     */
+    public Updatable createGhost() {
+        Animation ghost= getGhost();
+        if(ghost != null)
+            return new AnimPlayer(ghost, getScreenRect());
         return null;
     }
 }

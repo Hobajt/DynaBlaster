@@ -36,6 +36,7 @@ public class ImageResources {
 
         ObjectFactory.setResourceRef(this);
         GameObject.setImageResources(this);
+        Animation.setResourceRef(this);
     }
 
     /**

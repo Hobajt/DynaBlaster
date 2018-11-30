@@ -21,4 +21,12 @@ public class WinConditions {
         REMOVE_BLOCKS,
         BOSS
     }
+
+    public int getTimeLimit() {
+        return timeLimit;
+    }
+
+    public WinGoal getGoal() {
+        return goal;
+    }
 }

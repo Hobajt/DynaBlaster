@@ -88,6 +88,7 @@ public class LevelData {
      * Generates level tiles and objects.
      */
     public LevelState generateState(PlayerProgress progress) {
+        Log.d("kek", "--Generating level--");
         //create tiles from map array
         GameObject[] tiles= generateTiles();
 
@@ -95,10 +96,11 @@ public class LevelData {
         List<Enemy> enemies= generateEnemies();
 
         //spawn player
+        Log.d("kek","Player spawn pos: " + playerSpawn.toString());
         Player player= CreatureFactory.spawnPlayer(playerSpawn);
         player.setProgress(progress);
 
-        return new LevelState(size, tiles, player, enemies);
+        return new LevelState(size, tiles, player, enemies, conditions);
     }
 
     private List<Enemy> generateEnemies() {

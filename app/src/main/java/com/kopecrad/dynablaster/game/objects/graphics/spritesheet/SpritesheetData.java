@@ -10,12 +10,14 @@ public class SpritesheetData {
     private int rowCount;
 
     private float speed;
+    private String ghost;
 
-    public SpritesheetData(int colCount, int rowCount, int count, int speedPercentage) {
+    public SpritesheetData(int colCount, int rowCount, int count, int speedPercentage, String ghost) {
         this.count = count;
         this.colCount = colCount;
         this.rowCount = rowCount;
         this.speed= 100/speedPercentage;
+        this.ghost= ghost;
     }
 
     public int getColCount() {
@@ -36,5 +38,9 @@ public class SpritesheetData {
 
     public float getSpeed() {
         return speed;
+    }
+
+    public String getGhost() {
+        return ghost;
     }
 }

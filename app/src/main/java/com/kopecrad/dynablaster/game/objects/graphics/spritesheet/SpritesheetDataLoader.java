@@ -78,6 +78,7 @@ public class SpritesheetDataLoader extends AssetLoader {
             Integer rowCount = null;
             Integer count= null;
             Integer speed = null;
+            String ghost= null;
 
             for (int i = 0; i < parser.getAttributeCount(); i++) {
                 String attName = parser.getAttributeName(i);
@@ -97,6 +98,9 @@ public class SpritesheetDataLoader extends AssetLoader {
                     case "speed":
                         speed = Integer.parseInt(parser.getAttributeValue(i));
                         break;
+                    case "ghost":
+                        ghost = parser.getAttributeValue(i);
+                        break;
                 }
             }
 
@@ -106,7 +110,7 @@ public class SpritesheetDataLoader extends AssetLoader {
             if(speed == null)
                 speed= 100;
 
-            data.put(name, new SpritesheetData(colCount, rowCount, count, speed));
+            data.put(name, new SpritesheetData(colCount, rowCount, count, speed, ghost));
             parser.next();
             return true;
         } catch (XmlPullParserException | IOException e) {

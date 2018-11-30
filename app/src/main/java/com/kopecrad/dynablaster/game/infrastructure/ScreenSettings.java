@@ -24,6 +24,7 @@ public class ScreenSettings {
 
     private Point viewPos;
     private Point screenCenter;
+    private int height;
 
     public ScreenSettings() {
         viewPos= new Point(0,0);
@@ -119,6 +120,7 @@ public class ScreenSettings {
     }
 
     private void rescale(int w, int h) {
+        height= h;
         int oldTileSize= TILE_SIZE;
         TILE_SIZE= w > h ? h/12 : w/12;
         screenCenter = new Point(w/2, h/2);
@@ -132,5 +134,9 @@ public class ScreenSettings {
         CREATURE_REDUCTION = TILE_SIZE / 5;
         PLAYER_ADDITION = 4*TILE_SIZE / 10;//(int)(TILE_SIZE * 0.4f);
         TILE_SIZE_HALF = TILE_SIZE / 2;
+    }
+
+    public int getHeight() {
+        return height;
     }
 }

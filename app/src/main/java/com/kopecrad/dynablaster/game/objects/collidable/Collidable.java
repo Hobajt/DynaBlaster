@@ -2,9 +2,11 @@ package com.kopecrad.dynablaster.game.objects.collidable;
 
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.util.Log;
 
 import com.kopecrad.dynablaster.game.infrastructure.level.LevelState;
 import com.kopecrad.dynablaster.game.objects.GameObject;
+import com.kopecrad.dynablaster.game.objects.Updatable;
 import com.kopecrad.dynablaster.game.objects.graphics.ObjectGraphics;
 
 import java.util.List;
@@ -69,7 +71,7 @@ public abstract class Collidable extends GameObject {
                 continue;
 
             if(isColliding(c)) {
-                collisionRes= peerCollision(c.getRank(), c.getID());
+                collisionRes |= peerCollision(c.getRank(), c.getID());
             }
         }
 
@@ -85,12 +87,17 @@ public abstract class Collidable extends GameObject {
      */
     protected abstract boolean peerCollision(CollidableRank other, int fireID);
 
-    protected void setLastFireID(int lastFireID) {
-        this.lastFireID = lastFireID;
+    protected void fireIDInit(int id) {
+        lastFireID= id;
     }
 
     protected boolean isFireUnique(int fireID) {
-        return fireID != lastFireID;
+        if(lastFireID != fireID) {
+            Log.d("kek", "Fire unique : " + fireID + " != " + lastFireID);
+            lastFireID= fireID;
+            return true;
+        }
+        return false;
     }
 
     protected int getID() {

@@ -28,7 +28,6 @@ public class Block extends Obstacle {
         Log.d("kek", "Block-fire collision; ID=" + fireID);
 
         if(isFireUnique(fireID)) {
-            setLastFireID(fireID);
             postDestruction(fireID);
             return true;
         }

@@ -34,7 +34,7 @@ public class CreatureFactory extends ObjectFactory {
         if(player == null)
             player= new Player(pos, getRes().getAnim("player_anim"));
         else
-            player.setPosition(pos);
+            player.setMapPosition(pos.x, pos.y);
         return player;
     }
 

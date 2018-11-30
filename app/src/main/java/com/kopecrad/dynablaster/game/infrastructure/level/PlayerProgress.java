@@ -1,6 +1,7 @@
 package com.kopecrad.dynablaster.game.infrastructure.level;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.kopecrad.dynablaster.game.objects.collidable.Bomb;
 import com.kopecrad.dynablaster.game.objects.collidable.ItemType;
@@ -89,6 +90,12 @@ public class PlayerProgress {
         prg.saveState();
     }
 
+    public void resetProgress() {
+        PlayerProgress prg= new PlayerProgress();
+        prg.prefs= this.prefs;
+        prg.saveState();
+    }
+
     public int getNextLevel() {
         return nextLevel;
     }
@@ -103,5 +110,16 @@ public class PlayerProgress {
 
     public Buffs getBuffs() {
         return buffs;
+    }
+
+    public void update(int health, int score, Buffs buffs) {
+        this.health= health;
+        this.score= score;
+        this.nextLevel++;
+
+        this.buffs= new Buffs(buffs);
+        Log.d("kek", "Player progress saved.");
+
+        saveState();
     }
 }

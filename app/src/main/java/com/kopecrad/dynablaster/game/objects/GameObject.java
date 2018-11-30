@@ -11,6 +11,7 @@ import com.kopecrad.dynablaster.game.infrastructure.Scene;
 import com.kopecrad.dynablaster.game.infrastructure.ScreenSettings;
 import com.kopecrad.dynablaster.game.infrastructure.level.LevelState;
 import com.kopecrad.dynablaster.game.infrastructure.level.PlayerProgress;
+import com.kopecrad.dynablaster.game.objects.graphics.Animation;
 import com.kopecrad.dynablaster.game.objects.graphics.ObjectGraphics;
 
 import java.util.logging.ConsoleHandler;
@@ -132,7 +133,7 @@ public class GameObject {
 
     protected void changeTexture(String newGraphics) {
         //Log.d("kek", "New graphics: " + newGraphics);
-        graphics= imgRes.getTexture(newGraphics);
+        graphics= imgRes.getGraphics(newGraphics);
     }
 
     public void rescale(int oldTileSize) {
@@ -161,5 +162,9 @@ public class GameObject {
 
     public static void setStateRef(LevelState st) {
         state= st;
+    }
+
+    protected Animation getGhost() {
+        return graphics.getGhost();
     }
 }

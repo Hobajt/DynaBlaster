@@ -80,7 +80,7 @@ public abstract class Creature extends Collidable {
         boundingRect= getScreen().getCreatureRect(getPosition());
     }
 
-    protected Point getMoveVector() {
+    public Point getMoveVector() {
         return moveVector;
     }
 

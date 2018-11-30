@@ -4,13 +4,15 @@ import android.graphics.Point;
 
 import com.kopecrad.dynablaster.game.objects.Updatable;
 import com.kopecrad.dynablaster.game.objects.collidable.creature.Buffs;
+import com.kopecrad.dynablaster.game.objects.collidable.creature.Creature;
+import com.kopecrad.dynablaster.game.objects.collidable.creature.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Bomb extends Block implements Updatable {
 
-    private static int fireCounter= 1;
+    private static int fireCounter= 5;
 
     private static final String BOMB_GRAPHICS = "bomb_anim";
     private static final int BOMB_TIME_CONST= 3000;
@@ -93,5 +95,22 @@ public class Bomb extends Block implements Updatable {
 
     public static void setBuffsRef(Buffs b) {
         playerBuffs= b;
+    }
+
+    @Override
+    public Point detectAndRepairCollision(Collidable other) {
+        if(other.getRank() == CollidableRank.PLAYER || other.getRank() == CollidableRank.ENEMY) {
+            Creature p = (Creature) other;
+            Point mv= p.getMoveVector();
+            Point pos= p.getMapPos();
+            pos= new Point(pos.x + mv.x, pos.y + mv.y);
+
+            Point myPos= getMapPos();
+            if(myPos.x == pos.x && myPos.y == pos.y)
+                return super.detectAndRepairCollision(other);
+            return null;
+        }
+
+        return super.detectAndRepairCollision(other);
     }
 }

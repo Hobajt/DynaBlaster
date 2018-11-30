@@ -60,10 +60,7 @@ public class Player extends Creature {
     protected boolean peerCollision(CollidableRank other, int fireID) {
         switch (other) {
             case PORTAL:
-                //check win conditions
-                //trigger quit anim on portal, hide plyaer
-                //trigger level finished
-                Log.d("kek", "Player: Attempting to enter portal");
+                state.portalAttempt();
                 break;
             case ITEM:
                 Log.d("kek", "Player: item picked up");
@@ -76,7 +73,6 @@ public class Player extends Creature {
                 return false;
             case FIRE:
                 if(isFireUnique(fireID)) {
-                    setLastFireID(fireID);
                     return takeDamage();
                 }
                 return false;
@@ -90,6 +86,7 @@ public class Player extends Creature {
         switch (type) {
             case HEALTH:
                 health++;
+                state.updateHealth(health);
                 break;
             case FIRE:
                 buffs.updateFireRadius();
@@ -113,11 +110,11 @@ public class Player extends Creature {
     private boolean takeDamage() {
         Log.d("kek", "Player taking damage .");
         if(--health < 1) {
-            getScene().setLifeCount(health);
+            getScene().getGUI().updateLives(Integer.toString(health));
             getScene().levelFinished(GameState.PLAYER_DIED);
             return true;
         }
-        getScene().setLifeCount(health);
+        getScene().getGUI().updateLives(Integer.toString(health));
         return false;
     }
 
@@ -144,5 +141,17 @@ public class Player extends Creature {
 
     public void addScore(int value) {
         score += value;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public Buffs getBuffs() {
+        return buffs;
     }
 }

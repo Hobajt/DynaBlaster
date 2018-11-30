@@ -1,14 +1,14 @@
 package com.kopecrad.dynablaster.game.infrastructure;
 
+import android.app.ActivityOptions;
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Point;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.kopecrad.dynablaster.R;
+import com.kopecrad.dynablaster.activity.EndActivity;
+import com.kopecrad.dynablaster.activity.GameActivity;
 import com.kopecrad.dynablaster.game.infrastructure.level.LevelState;
-import com.kopecrad.dynablaster.game.infrastructure.level.Renderable;
 import com.kopecrad.dynablaster.game.infrastructure.level.data.LevelData;
 import com.kopecrad.dynablaster.game.infrastructure.level.PlayerProgress;
 import com.kopecrad.dynablaster.game.infrastructure.level.data.LevelLoader;
@@ -28,42 +28,65 @@ public class Scene {
     private LevelState levelState;
 
     private PlayerProgress progress;
-    private TextView lifeCounter;
+    private GUIHandle gui;
+    private GameActivity context;
 
-    public Scene(Context context, PlayerProgress progress, Renderer renderer, TextView lifeCounter) {
-        this.lifeCounter= lifeCounter;
+    public Scene(GameActivity context, PlayerProgress progress, Renderer renderer, GUIHandle gui) {
+        this.context= context;
+        this.gui= gui;
         this.progress= progress;
         this.renderer= renderer;
         this.imgRes= new ImageResources(context);
         AssetLoader.setManager(context.getAssets());
         this.levelLoader= new LevelLoader();
         GameObject.setSceneRef(this);
+        LevelState.setSceneRef(this);
 
         startGame();
     }
 
-    public void startGame() {
+    public boolean startGame() {
         if(levelData == null)
             levelData= levelLoader.loadLevel(progress.getNextLevel());
-        levelState= levelData.generateState(progress);
-        renderer.registerRenderable(levelState);
+
+        if(levelData != null) {
+            levelState = levelData.generateState(progress);
+            renderer.registerRenderable(levelState);
+            return true;
+        }
+
+        return false;
     }
 
     public LevelState getState() {
         return levelState;
     }
 
-    public void levelFinished(GameState playerDied) {
-        //TODO: handle various level endings
-        Log.d("kek", "GAME OVER");
+    public void levelFinished(GameState state) {
+        switch (state) {
+            case LEVEL_COMPLETED:
+                Log.d("kek", "LEVEL FINISHED");
+                int timeLeft= levelState.updateProgress(this.progress);
+                saveLevelResult(timeLeft, levelData);
+                levelData= null;
+                if(startGame())
+                    return;
+                break;
+            case PLAYER_DIED:
+            case TIMES_UP:
+                Log.d("kek", "GAME OVER");
+                break;
+        }
+
+        progress.resetProgress();
+        context.switchToEnd(state);
     }
 
-    public void setLifeCount(final int health) {
-        lifeCounter.post(new Runnable() {
-            @Override
-            public void run() {
-                lifeCounter.setText("Lives: " + health);
-            }
-        });
+    public GUIHandle getGUI() {
+        return gui;
+    }
+
+    private void saveLevelResult(int timeleft, LevelData data) {
+        //TODO: add to leaderboards
     }
 }
