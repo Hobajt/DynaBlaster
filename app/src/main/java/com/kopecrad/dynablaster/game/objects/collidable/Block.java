@@ -40,7 +40,7 @@ public class Block extends Obstacle {
 
         if(postDestructionEffect != 2) {
             Log.d("kek", "Spawning item");
-            level.spawnNew(new Item(getMapPos(), ItemType.BOMB, fireID));
+            level.spawnNew(new Item(getMapPos(), ItemType.random(), fireID));
             return;
         }
 

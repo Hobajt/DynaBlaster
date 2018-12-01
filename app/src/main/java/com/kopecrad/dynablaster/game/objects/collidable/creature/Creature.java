@@ -16,7 +16,7 @@ import java.util.List;
  */
 public abstract class Creature extends Collidable {
 
-    public static final int SPEED_BASE = 12;
+    public static final int SPEED_BASE = 24;
 
     protected int speed= SPEED_BASE;
 
