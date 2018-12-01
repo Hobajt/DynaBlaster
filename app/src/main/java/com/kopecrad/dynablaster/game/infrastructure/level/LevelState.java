@@ -31,6 +31,8 @@ import java.util.Random;
  */
 public class LevelState implements Renderable {
 
+    public static final int INITIAL_FREEZE_LENGTH = 1500;
+
     private static Scene scene;
 
     private Point size;
@@ -56,6 +58,9 @@ public class LevelState implements Renderable {
 
     private List<AnimPlayer> anims;
     private boolean isOver;
+
+    private boolean isInitFreeze;
+    private long initialFreeze;
 
     public LevelState(Point size, GameObject[] map, Player player, List<Enemy> enemies, WinConditions conds) {
         this.size= size;
@@ -85,6 +90,9 @@ public class LevelState implements Renderable {
         timer.startTimer();
 
         scene.getGUI().update(player.getHealth(), player.getScore(), timer.toString());
+
+        initialFreeze= System.currentTimeMillis() + INITIAL_FREEZE_LENGTH;
+        isInitFreeze= true;
     }
 
     public static void setSceneRef(Scene sc) {
@@ -151,8 +159,8 @@ public class LevelState implements Renderable {
         obstacleCollisions();
         objectCollisions();
 
-        render(canvas);
         GameObject.ehm();
+        render(canvas);
     }
 
     private void enemyUpdate() {
@@ -226,6 +234,8 @@ public class LevelState implements Renderable {
         if (playerInput.isMoving()) {
             player.move(playerInput.getMoveDir());
         }
+        else
+            player.animDefault();
     }
 
     private void obstacleCollisions() {

@@ -12,7 +12,7 @@ public class Buffs {
 
     private static final int SPEED_INCREMENT = 25;
 
-    private static final int START_BOMBCAP= 3;
+    private static final int START_BOMBCAP= 1;
     private static final int START_FIRERADIUS = 1;
     private static final int START_SPEED = 4 * SPEED_INCREMENT;
 
@@ -71,6 +71,7 @@ public class Buffs {
     }
 
     public int getBombCap() {
+        Log.d("bmbTst", "BombCap in buffs: " + bombCap);
         return bombCap;
     }
 

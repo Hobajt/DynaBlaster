@@ -14,8 +14,6 @@ import com.kopecrad.dynablaster.game.objects.GameObject;
  */
 public class Renderer implements Runnable, SurfaceHolder.Callback  {
 
-    float pos;
-
     private Thread renderThread;
     private boolean running;
 
@@ -31,7 +29,6 @@ public class Renderer implements Runnable, SurfaceHolder.Callback  {
         holder.addCallback(this);
         renderThread= null;
         running= false;
-        pos= 0f;
 
         screen= new ScreenSettings();
         GameObject.setScreenSettings(screen);
@@ -49,10 +46,6 @@ public class Renderer implements Runnable, SurfaceHolder.Callback  {
                 renderable.renderUpdate(canvas);
 
             holder.unlockCanvasAndPost(canvas);
-
-            pos += 0.02f;
-            if(pos > 1.f)
-                pos= 0.f;
         }
     }
 

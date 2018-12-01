@@ -3,12 +3,14 @@ package com.kopecrad.dynablaster.game.infrastructure;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 
 import com.kopecrad.dynablaster.R;
 import com.kopecrad.dynablaster.game.objects.GameObject;
 import com.kopecrad.dynablaster.game.objects.ObjectFactory;
 import com.kopecrad.dynablaster.game.objects.graphics.Animation;
 import com.kopecrad.dynablaster.game.objects.graphics.ObjectGraphics;
+import com.kopecrad.dynablaster.game.objects.graphics.PlayerAnimation;
 import com.kopecrad.dynablaster.game.objects.graphics.Texture;
 
 import java.util.HashMap;
@@ -26,6 +28,7 @@ public class ImageResources {
 
     private Map<String, Texture> textures;
     private Map<String, Animation> anims;
+    private PlayerAnimation plAnim;
 
     public ImageResources(Context context) {
         this.res= context.getResources();
@@ -80,5 +83,30 @@ public class ImageResources {
         for(Animation a : anims.values()) {
             a.update();
         }
+    }
+
+    public ObjectGraphics getPlayerAnim() {
+        if(plAnim == null)
+            plAnim= assemblePlayerAnim();
+        return plAnim;
+    }
+
+    private PlayerAnimation assemblePlayerAnim() {
+        Map<Integer, Animation> playerAnims= new HashMap<>();
+
+        Point[] pts= new Point[] {
+                new Point(-1,0),
+                new Point(1,0),
+                new Point(0,-1),
+                new Point(0,1),
+                new Point(0,0),
+        };
+
+        for(Point p : pts) {
+            int val= (2+p.x) + 10* (p.y+2);
+            playerAnims.put(val, getAnim("player_" + Integer.toString(val) + "_anim"));
+        }
+
+        return new PlayerAnimation(playerAnims);
     }
 }

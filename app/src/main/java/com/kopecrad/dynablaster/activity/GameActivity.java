@@ -46,20 +46,12 @@ public class GameActivity extends FullscreenActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        Log.d("kek", "asdfadfa");
         prefs= getSharedPreferences(getResources().getString(R.string.prefs_name), Context.MODE_PRIVATE);
 
         setupInputListeners();
 
-        surfView= findViewById(R.id.surfaceView);
-        renderer= new Renderer(surfView);
-        EnemyDescription.setEnemyTableRef(new GameDB(this).getTableEnemy());
-        GUIHandle gameGUI= new GUIHandle(
-                (TextView) findViewById(R.id.panel_livesTxt),
-                (TextView) findViewById(R.id.panel_clockTxt),
-                (TextView) findViewById(R.id.panel_scoreTxt)
-        );
-        scene= new Scene(this, new PlayerProgress(prefs), renderer, gameGUI);
-        inp= InputHandler.inst();
+        initialize();
     }
 
     @Override
@@ -71,6 +63,7 @@ public class GameActivity extends FullscreenActivity {
 
     @Override
     protected void onResume() {
+        Log.d("kek", "GameActivity::onResume");
         super.onResume();
         renderer.resume();
         scene.soundsActivate(this);
@@ -115,5 +108,19 @@ public class GameActivity extends FullscreenActivity {
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ac).toBundle());
             }
         });
+    }
+
+    private void initialize() {
+        GUIHandle gameGUI= new GUIHandle(
+                (TextView) findViewById(R.id.panel_livesTxt),
+                (TextView) findViewById(R.id.panel_clockTxt),
+                (TextView) findViewById(R.id.panel_scoreTxt)
+        );
+        surfView= findViewById(R.id.surfaceView);
+        EnemyDescription.setEnemyTableRef(new GameDB(this).getTableEnemy());
+        inp= InputHandler.inst();
+
+        renderer= new Renderer(surfView);
+        scene= new Scene(this, new PlayerProgress(prefs), renderer, gameGUI);
     }
 }

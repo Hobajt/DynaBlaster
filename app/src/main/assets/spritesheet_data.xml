@@ -1,5 +1,9 @@
 <data>
-    <sheet name="player_anim" colCount="3" rowCount="3" count="8" speed="100"/>
+    <sheet name="player_22_anim" colCount="1" rowCount="1" count="1" speed="100"/>
+    <sheet name="player_21_anim" colCount="3" rowCount="3" count="8" speed="100"/>
+    <sheet name="player_23_anim" colCount="3" rowCount="3" count="8" speed="100"/>
+    <sheet name="player_12_anim" colCount="3" rowCount="3" count="8" speed="100"/>
+    <sheet name="player_32_anim" colCount="3" rowCount="3" count="8" speed="100"/>
     <sheet name="bomb_anim" colCount="2" rowCount="2" count="4" speed="100"/>
     <sheet name="fire_anim" colCount="3" rowCount="3" count="9" speed="20"/>
     <sheet name="enemy_0_anim" colCount="2" rowCount="2" count="4" speed="100" ghost="enemy_0_die_anim"/>

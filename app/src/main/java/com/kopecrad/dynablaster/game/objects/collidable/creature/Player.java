@@ -12,6 +12,7 @@ import com.kopecrad.dynablaster.game.objects.collidable.Bomb;
 import com.kopecrad.dynablaster.game.objects.collidable.CollidableRank;
 import com.kopecrad.dynablaster.game.objects.collidable.ItemType;
 import com.kopecrad.dynablaster.game.objects.graphics.Animation;
+import com.kopecrad.dynablaster.game.objects.graphics.PlayerAnimation;
 
 public class Player extends Creature {
 
@@ -24,17 +25,17 @@ public class Player extends Creature {
     private Buffs buffs;
     private int score;
 
-    public Player(Point pos, Animation anim) {
-        super(pos.x, pos.y, anim);
-        bombs= new BombPool();
-        health= 0;
-        lastEnemy= -1;
-        enemyContactTimestamp= 0;
+    private PlayerAnimation anim;
+
+    public Player(Point pos) {
+        super(pos.x, pos.y, imgRes.getPlayerAnim());
+        init();
     }
 
     @Override
     public void move(Point moveVector) {
         super.move(moveVector);
+        anim.updateActive(moveVector);
         getScreen().setViewPos(getPosition());
     }
 
@@ -55,6 +56,15 @@ public class Player extends Creature {
     @Override
     public CollidableRank getRank() {
         return CollidableRank.PLAYER;
+    }
+
+    public void init() {
+        anim= (PlayerAnimation) getGraphics();
+        anim.updateActive(new Point(0,0));
+        bombs= new BombPool();
+        health= 0;
+        lastEnemy= -1;
+        enemyContactTimestamp= 0;
     }
 
     @Override
@@ -156,5 +166,9 @@ public class Player extends Creature {
 
     public Buffs getBuffs() {
         return buffs;
+    }
+
+    public void animDefault() {
+        anim.updateActive(new Point(0,0));
     }
 }

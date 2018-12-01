@@ -117,7 +117,8 @@ public class MainActivity extends FullscreenActivity {
 
         sounds.release();
         Intent intent= new Intent(getBaseContext(), GameActivity.class);
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        startActivity(intent);
+        //startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
     /**

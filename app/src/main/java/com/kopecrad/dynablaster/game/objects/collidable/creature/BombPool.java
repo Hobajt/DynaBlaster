@@ -1,6 +1,7 @@
 package com.kopecrad.dynablaster.game.objects.collidable.creature;
 
 import android.graphics.Point;
+import android.util.Log;
 
 import com.kopecrad.dynablaster.game.objects.collidable.Bomb;
 
@@ -29,6 +30,7 @@ public class BombPool {
         this.bombCap= bombCap;
 
         balancePool();
+        Log.d("bmbTst", "Bomb pool size: " + bombs.size() + "; " + bombCap);
     }
 
     /**
@@ -39,6 +41,7 @@ public class BombPool {
             //add new bombs
             for(int i= 0; i < bombCap - bombs.size(); i++) {
                 bombs.add(new Bomb());
+                Log.d("bmbTst", "Initial bomb added");
             }
         }
         else if(bombCap < bombs.size()) {
@@ -59,8 +62,8 @@ public class BombPool {
             b.deactivate();
     }
 
-    public boolean hasFreeBombs() {
-        Bomb b= bombs.get(nextBombIndex());
+    public boolean isBombFree() {
+        Bomb b= bombs.get(bombPointer);
         return !b.isActive();
     }
 
@@ -69,10 +72,12 @@ public class BombPool {
      * Returns null when bomb cannot be spawned.
      */
     public Bomb dropBomb(Point position) {
-        if(hasFreeBombs()) {
-            Bomb b= bombs.get(nextBombIndex());
+        Bomb b= bombs.get(bombPointer);
+        if(!b.isActive()) {
+            Log.d("bmbTst", "Dropping bomb " + bombPointer);
             b.activate(position);
-            bombPointer++;
+            if(++bombPointer >= bombs.size())
+                bombPointer= 0;
             return b;
         }
         return null;
@@ -86,7 +91,9 @@ public class BombPool {
 
     public void updateCount(int bombCap) {
         this.bombCap= bombCap;
+        Log.d("bmbTst", "BOmbCap: " + this.bombCap);
         if(bombCap > bombs.size()) {
+            Log.d("bmbTst", "Gotta add new bombs");
             //add new bombs
             for(int i= 0; i < bombCap - bombs.size(); i++) {
                 bombs.add(new Bomb());

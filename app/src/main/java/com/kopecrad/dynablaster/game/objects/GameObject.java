@@ -21,7 +21,7 @@ import java.util.logging.ConsoleHandler;
  */
 public class GameObject {
 
-    private static ImageResources imgRes;
+    protected static ImageResources imgRes;
     private static ScreenSettings screen;
     private static Scene scene;
 
@@ -45,6 +45,7 @@ public class GameObject {
     public static void ehm() {
         imgRes.updateAnimationFrames();
     }
+
 
     /**
      * Render call for this object.
@@ -88,6 +89,7 @@ public class GameObject {
 
     public static void setImageResources(ImageResources res) {
         imgRes= res;
+        Log.d("kek", "______________________________________________________");
     }
 
     public static void setSceneRef(Scene s) {
@@ -166,5 +168,9 @@ public class GameObject {
 
     protected Animation getGhost() {
         return graphics.getGhost();
+    }
+
+    public ObjectGraphics getGraphics() {
+        return graphics;
     }
 }

@@ -31,10 +31,7 @@ public class CreatureFactory extends ObjectFactory {
     }
 
     private Player spawnPlayerLoc(Point pos) {
-        if(player == null)
-            player= new Player(pos, getRes().getAnim("player_anim"));
-        else
-            player.setMapPosition(pos.x, pos.y);
+        player= new Player(pos);
         return player;
     }
 
