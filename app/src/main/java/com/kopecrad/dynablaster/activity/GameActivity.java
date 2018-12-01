@@ -1,12 +1,10 @@
 package com.kopecrad.dynablaster.activity;
 
-import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
@@ -15,12 +13,12 @@ import android.widget.TextView;
 
 import com.kopecrad.dynablaster.R;
 import com.kopecrad.dynablaster.game.infrastructure.GUIHandle;
+import com.kopecrad.dynablaster.game.infrastructure.GameDB;
 import com.kopecrad.dynablaster.game.infrastructure.GameState;
 import com.kopecrad.dynablaster.game.infrastructure.InputHandler;
 import com.kopecrad.dynablaster.game.infrastructure.Renderer;
 import com.kopecrad.dynablaster.game.infrastructure.Scene;
 import com.kopecrad.dynablaster.game.infrastructure.level.EnemyDescription;
-import com.kopecrad.dynablaster.game.infrastructure.level.data.EnemyDescLoader;
 import com.kopecrad.dynablaster.game.infrastructure.level.PlayerProgress;
 
 /**
@@ -46,7 +44,7 @@ public class GameActivity extends FullscreenActivity {
 
         surfView= findViewById(R.id.surfaceView);
         renderer= new Renderer(surfView);
-        EnemyDescription.setEnemyTableRef(new EnemyDescLoader(this));
+        EnemyDescription.setEnemyTableRef(new GameDB(this).getTableEnemy());
         GUIHandle gameGUI= new GUIHandle(
                 (TextView) findViewById(R.id.panel_livesTxt),
                 (TextView) findViewById(R.id.panel_clockTxt),

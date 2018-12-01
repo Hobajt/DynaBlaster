@@ -75,7 +75,8 @@ public class MainActivity extends FullscreenActivity {
      * @param view
      */
     public void showScoreboard(View view) {
-        //TODO: implement scoreboard activity
+        Intent intent= new Intent(this, ScoreboardsActivity.class);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
     /**

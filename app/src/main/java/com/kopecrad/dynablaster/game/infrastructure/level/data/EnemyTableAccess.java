@@ -1,22 +1,20 @@
 package com.kopecrad.dynablaster.game.infrastructure.level.data;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.kopecrad.dynablaster.game.infrastructure.DBTableAccess;
+import com.kopecrad.dynablaster.game.infrastructure.GameDB;
 import com.kopecrad.dynablaster.game.infrastructure.level.EnemyDescription;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class EnemyDescLoader extends SQLiteOpenHelper {
+public class EnemyTableAccess extends DBTableAccess {
 
     private static Map<Integer, EnemyDescription> cache;
-
-    public static final String DB_NAME = "GameDB.db";
 
     private static final String TABLE_NAME= "enemy";
     private static final String COL_ID = "id";
@@ -24,25 +22,23 @@ public class EnemyDescLoader extends SQLiteOpenHelper {
     private static final String COL_HEALTH = "health";
     private static final String COL_SPEED = "speed";
 
-    public EnemyDescLoader(Context context) {
-        super(context, DB_NAME, null, 2);
-        Log.d("logDB", "DB constructor");
+    public EnemyTableAccess(GameDB gameDB) {
+        super(gameDB);
         if(cache == null)
             cache= new HashMap<>();
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
-        Log.d("logDB", "creating DB, inserting rows");
+    public void create(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE "+ TABLE_NAME +" (id INTEGER PRIMARY KEY, graphics TEXT, health INTEGER, speed INTEGER)");
         insertEnemy(db, new EnemyDescription(0, "enemy_0_anim", 50, 1));
         insertEnemy(db, new EnemyDescription(1, "enemy_1_anim", 75, 1));
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldV, int newV) {
+    public void upgrade(SQLiteDatabase db, int oldV, int newV) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-        onCreate(db);
+        create(db);
     }
 
     private boolean insertEnemy(SQLiteDatabase db, EnemyDescription enemy) {
@@ -71,7 +67,7 @@ public class EnemyDescLoader extends SQLiteOpenHelper {
         String selection = COL_ID + " = ?";
         String[] selectionArgs = { Integer.toString(id) };
 
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = gameDB.getReadableDatabase();
         Cursor crs= db.query(
                 TABLE_NAME,
                 null,

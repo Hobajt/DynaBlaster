@@ -1,14 +1,13 @@
 package com.kopecrad.dynablaster.game.infrastructure.level;
 
-import com.kopecrad.dynablaster.game.infrastructure.level.data.EnemyDescLoader;
-import com.kopecrad.dynablaster.game.objects.graphics.ObjectGraphics;
+import com.kopecrad.dynablaster.game.infrastructure.level.data.EnemyTableAccess;
 
 /**
  * Enemy description class, loaded from DB.
  */
 public class EnemyDescription {
 
-    private static EnemyDescLoader enemyTable;
+    private static EnemyTableAccess enemyTable;
 
     private int id;
     private String graphics;
@@ -43,7 +42,7 @@ public class EnemyDescription {
         return health;
     }
 
-    public static void setEnemyTableRef(EnemyDescLoader edl) {
+    public static void setEnemyTableRef(EnemyTableAccess edl) {
         enemyTable= edl;
     }
 }

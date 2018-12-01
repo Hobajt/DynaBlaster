@@ -3,6 +3,6 @@
     <sheet name="bomb_anim" colCount="2" rowCount="2" count="4" speed="100"/>
     <sheet name="fire_anim" colCount="3" rowCount="3" count="9" speed="20"/>
     <sheet name="enemy_0_anim" colCount="2" rowCount="2" count="4" speed="100" ghost="enemy_0_die_anim"/>
-    <sheet name="enemy_0_die_anim" colCount="2" rowCount="2" count="4" speed="20"/>
+    <sheet name="enemy_0_die_anim" colCount="2" rowCount="2" count="4" speed="40"/>
     <sheet name="portal_anim" colCount="2" rowCount="2" count="4" speed="70"/>
 </data>

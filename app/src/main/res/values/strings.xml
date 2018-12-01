@@ -20,4 +20,9 @@
     <string name="panel_clock">Time left</string>
     <string name="panel_lives">Lives left</string>
     <string name="btn_movementCtrls">Movement controls</string>
+    <string name="score_switchMode_off">Show offline leaderboards</string>
+    <string name="score_head_player">Player</string>
+    <string name="score_head_score">Score</string>
+    <string name="score_head_date">Date</string>
+    <string name="score_switchMode_on">Show online scoreboards</string>
 </resources>
