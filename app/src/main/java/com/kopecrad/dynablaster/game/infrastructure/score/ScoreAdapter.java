@@ -36,6 +36,7 @@ public class ScoreAdapter extends ArrayAdapter<Score> {
             holder = new ScoreHolder();
             holder.player= (TextView)row.findViewById(R.id.scoreEntry_player);
             holder.score= (TextView)row.findViewById(R.id.scoreEntry_score);
+            holder.levels= (TextView)row.findViewById(R.id.scoreEntry_levels);
             holder.date= (TextView)row.findViewById(R.id.scoreEntry_date);
 
             row.setTag(holder);
@@ -47,6 +48,7 @@ public class ScoreAdapter extends ArrayAdapter<Score> {
         Score entry = data.get(position);
         holder.player.setText(entry.getPlayer());
         holder.score.setText(entry.getScore());
+        holder.levels.setText(entry.getLevels());
         holder.date.setText(entry.getDate());
 
         return row;
@@ -55,6 +57,7 @@ public class ScoreAdapter extends ArrayAdapter<Score> {
     private class ScoreHolder {
         TextView player;
         TextView score;
+        TextView levels;
         TextView date;
     }
 }

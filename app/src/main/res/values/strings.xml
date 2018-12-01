@@ -13,8 +13,8 @@
     <string name="menu_gameContinue">Continue</string>
 
     <string name="menu_endText_won">You won!</string>
-    <string name="menu_endText_lostHealth">You died.</string>
-    <string name="menu_endText_lostTime">Time\'s up.</string>
+    <string name="menu_endText_lostHealth">You died!</string>
+    <string name="menu_endText_lostTime">Time\'s up!</string>
 
     <string name="panel_score">Player\'s score</string>
     <string name="panel_clock">Time left</string>
@@ -25,4 +25,9 @@
     <string name="score_head_score">Score</string>
     <string name="score_head_date">Date</string>
     <string name="score_switchMode_on">Show online scoreboards</string>
+    <string name="score_head_levels">Levels cleared</string>
+    <string name="menu_endText_saveScore">Save your score</string>
+    <string name="menu_endText_nickname">Enter your nickname</string>
+    <string name="save">Save</string>
+    <string name="menu_resetScores">Remove local scoreboards</string>
 </resources>

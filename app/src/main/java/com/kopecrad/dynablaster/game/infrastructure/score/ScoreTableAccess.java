@@ -17,6 +17,7 @@ public class ScoreTableAccess extends DBTableAccess {
     private static final String COL_ID = "id";
     private static final String COL_PLAYER = "player";
     private static final String COL_SCORE = "score";
+    private static final String COL_LEVELS = "levels";
     private static final String COL_DATE = "date";
 
     public ScoreTableAccess(GameDB gameDB) {
@@ -29,6 +30,7 @@ public class ScoreTableAccess extends DBTableAccess {
                 COL_ID + " INTEGER PRIMARY KEY, "+
                 COL_PLAYER + " TEXT, "+
                 COL_SCORE +" INTEGER, "+
+                COL_LEVELS +" INTEGER, "+
                 COL_DATE +" TEXT)");
     }
 
@@ -45,8 +47,14 @@ public class ScoreTableAccess extends DBTableAccess {
         contentValues.put(COL_PLAYER, score.getPlayer());
         contentValues.put(COL_SCORE, score.getScore());
         contentValues.put(COL_DATE, score.getDate());
+        contentValues.put(COL_LEVELS, score.getLevels());
         db.insert(TABLE_NAME, null, contentValues);
         return true;
+    }
+
+    public void removeAllEntries() {
+        SQLiteDatabase db= gameDB.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_NAME);
     }
 
     public boolean loadAllScores(List<Score> cache) {
@@ -69,9 +77,10 @@ public class ScoreTableAccess extends DBTableAccess {
                 int id = crs.getInt(crs.getColumnIndexOrThrow(COL_ID));
                 String player = crs.getString(crs.getColumnIndexOrThrow(COL_PLAYER));
                 int score = crs.getInt(crs.getColumnIndexOrThrow(COL_SCORE));
+                int levels = crs.getInt(crs.getColumnIndexOrThrow(COL_LEVELS));
                 String date = crs.getString(crs.getColumnIndexOrThrow(COL_DATE));
 
-                cache.add(new Score(player, score, date));
+                cache.add(new Score(player, score, date, levels));
                 counter++;
             }
         } catch (IllegalArgumentException e) {

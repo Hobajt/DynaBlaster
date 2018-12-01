@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.kopecrad.dynablaster.R;
 import com.kopecrad.dynablaster.game.infrastructure.GUIHandle;
 import com.kopecrad.dynablaster.game.infrastructure.GameDB;
@@ -20,6 +21,7 @@ import com.kopecrad.dynablaster.game.infrastructure.Renderer;
 import com.kopecrad.dynablaster.game.infrastructure.Scene;
 import com.kopecrad.dynablaster.game.infrastructure.level.EnemyDescription;
 import com.kopecrad.dynablaster.game.infrastructure.level.PlayerProgress;
+import com.kopecrad.dynablaster.game.infrastructure.score.Score;
 
 /**
  * Core game activity - where actual game happens.
@@ -90,14 +92,18 @@ public class GameActivity extends FullscreenActivity {
         });
     }
 
-    public void switchToEnd(final GameState state) {
+    public void switchToEnd(final GameState state, Score score) {
         final GameActivity ac= this;
+        Gson gson= new Gson();
+        final String scoreJson = gson.toJson(score);
 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Intent intent= new Intent(ac, EndActivity.class);
                 intent.putExtra("state", state.ordinal());
+                if(state == GameState.LEVEL_COMPLETED)
+                    intent.putExtra("score", scoreJson);
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(ac).toBundle());
             }
         });

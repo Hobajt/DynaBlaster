@@ -11,6 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.kopecrad.dynablaster.R;
+import com.kopecrad.dynablaster.game.infrastructure.GameDB;
 import com.kopecrad.dynablaster.game.infrastructure.level.PlayerProgress;
 
 import java.util.HashMap;
@@ -146,6 +147,11 @@ public class MainActivity extends FullscreenActivity {
                 Log.d("kek", "Sound state changed.");
             }
         });
+    }
+
+    public void resetScoreboards(View view) {
+        new GameDB(this).getTableScore().removeAllEntries();
+        Log.d("kek", "All offline score entries have been removed.");
     }
 }
 

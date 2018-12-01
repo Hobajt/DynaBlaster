@@ -90,7 +90,7 @@ public class Animation implements ObjectGraphics {
 
     protected void framesFlip() {}
 
-    protected float getSpeedDelay() {
+    public float getSpeedDelay() {
         return speedDelay;
     }
 

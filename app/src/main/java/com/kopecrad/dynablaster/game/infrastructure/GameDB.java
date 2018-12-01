@@ -10,7 +10,7 @@ import com.kopecrad.dynablaster.game.infrastructure.score.ScoreTableAccess;
 public class GameDB extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "GameDB.db";
-    public static final int DB_VERSION = 4;
+    public static final int DB_VERSION = 5;
 
     private EnemyTableAccess tableEnemy;
     private ScoreTableAccess tableScore;

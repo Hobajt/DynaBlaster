@@ -55,6 +55,7 @@ public class LevelState implements Renderable {
     private List<Bomb> bombs;
 
     private List<AnimPlayer> anims;
+    private boolean isOver;
 
     public LevelState(Point size, GameObject[] map, Player player, List<Enemy> enemies, WinConditions conds) {
         this.size= size;
@@ -63,6 +64,7 @@ public class LevelState implements Renderable {
         this.enemies= enemies;
         upds= new ArrayList<>();
         blocks= getBlockInMap();
+        isOver= false;
 
         objects= new ArrayList<>();
         objects.add(player);
@@ -359,14 +361,14 @@ public class LevelState implements Renderable {
     }
 
     public void portalAttempt() {
-        if(!timer.isExpired() && enemiesLeft <= 0 && portal != null) {
+        if(!timer.isExpired() && enemiesLeft <= 0 && portal != null && !isOver) {
+            isOver= true;
             //portal.quitting();
             scene.levelFinished(GameState.LEVEL_COMPLETED);
         }
     }
 
-    public int updateProgress(PlayerProgress prg) {
-        prg.update(player.getHealth(), player.getScore(), player.getBuffs());
-        return timer.getTimeLeft();
+    public void updateProgress(PlayerProgress prg) {
+        prg.update(player.getHealth(), player.getScore(), player.getBuffs(), timer.getTimeLeft());
     }
 }

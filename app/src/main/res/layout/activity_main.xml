@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.MainActivity">
+    tools:context=".activity.MainActivity"
+    android:background="@drawable/wallpaper">
 
     <LinearLayout
         android:id="@+id/menu_mainLayout"
@@ -108,6 +109,13 @@
             android:layout_height="wrap_content"
             android:onClick="resetGame"
             android:text="@string/menu_resetGame" />
+
+        <Button
+            android:id="@+id/menu_opt_resetOfflineScoresBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="resetScoreboards"
+            android:text="@string/menu_resetScores" />
 
         <Switch
             android:id="@+id/menu_opt_soundSwitch"

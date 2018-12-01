@@ -22,12 +22,14 @@ public class PlayerProgress {
     private static final String KEY_LEVEL= "player.level";
     private static final String KEY_HEALTH= "player.health";
     private static final String KEY_SCORE= "player.score";
+    private static final String KEY_LEVELS_CLEARED= "player.levelsCleared";
 
     private SharedPreferences prefs;
 
     private int nextLevel;
     private int health;
     private int score;
+    private int levelsCleared;
     private Buffs buffs;
 
     /**
@@ -46,6 +48,7 @@ public class PlayerProgress {
         nextLevel= START_LEVEL;
         health= START_HEALTH;
         score= 0;
+        levelsCleared= 0;
     }
 
     /**
@@ -65,6 +68,7 @@ public class PlayerProgress {
         pEdit.putInt(KEY_LEVEL, nextLevel);
         pEdit.putInt(KEY_HEALTH, health);
         pEdit.putInt(KEY_SCORE, score);
+        pEdit.putInt(KEY_LEVELS_CLEARED, levelsCleared);
         buffs.saveState(pEdit);
 
         pEdit.apply();
@@ -77,6 +81,7 @@ public class PlayerProgress {
         nextLevel = prefs.getInt(KEY_LEVEL, START_LEVEL);
         health = prefs.getInt(KEY_HEALTH, START_HEALTH);
         score = prefs.getInt(KEY_SCORE, 0);
+        levelsCleared= prefs.getInt(KEY_LEVELS_CLEARED, 0);
         buffs= new Buffs(prefs);
         Bomb.setProgressRef(this);
     }
@@ -91,6 +96,7 @@ public class PlayerProgress {
     }
 
     public void resetProgress() {
+        Log.d("kek", "Player progress reset.");
         PlayerProgress prg= new PlayerProgress();
         prg.prefs= this.prefs;
         prg.saveState();
@@ -112,9 +118,15 @@ public class PlayerProgress {
         return buffs;
     }
 
-    public void update(int health, int score, Buffs buffs) {
+    public int getLevelsCleared() {
+        return levelsCleared;
+    }
+
+    public void update(int health, int score, Buffs buffs, int timeLeft) {
         this.health= health;
-        this.score= score;
+        this.score= score + timeLeft * 10;
+        this.levelsCleared++;
+        Log.d("kek", "levelCleared: " + levelsCleared);
         this.nextLevel++;
 
         this.buffs= new Buffs(buffs);

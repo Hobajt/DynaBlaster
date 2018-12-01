@@ -1,18 +1,20 @@
 package com.kopecrad.dynablaster.game.infrastructure;
 
-import android.app.ActivityOptions;
-import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
-import android.widget.TextView;
 
-import com.kopecrad.dynablaster.activity.EndActivity;
 import com.kopecrad.dynablaster.activity.GameActivity;
 import com.kopecrad.dynablaster.game.infrastructure.level.LevelState;
 import com.kopecrad.dynablaster.game.infrastructure.level.data.LevelData;
 import com.kopecrad.dynablaster.game.infrastructure.level.PlayerProgress;
 import com.kopecrad.dynablaster.game.infrastructure.level.data.LevelLoader;
+import com.kopecrad.dynablaster.game.infrastructure.score.Score;
+import com.kopecrad.dynablaster.game.infrastructure.score.ScoreTableAccess;
 import com.kopecrad.dynablaster.game.objects.GameObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Core game management.
@@ -42,6 +44,8 @@ public class Scene {
         GameObject.setSceneRef(this);
         LevelState.setSceneRef(this);
 
+        Log.d("kek", "Test date string: " + generateDateString());
+
         startGame();
     }
 
@@ -66,8 +70,7 @@ public class Scene {
         switch (state) {
             case LEVEL_COMPLETED:
                 Log.d("kek", "LEVEL FINISHED");
-                int timeLeft= levelState.updateProgress(this.progress);
-                saveLevelResult(timeLeft, levelData);
+                levelState.updateProgress(progress);
                 levelData= null;
                 if(startGame())
                     return;
@@ -78,15 +81,31 @@ public class Scene {
                 break;
         }
 
+        Score s= saveScoreOffline(progress);
         progress.resetProgress();
-        context.switchToEnd(state);
+        context.switchToEnd(state, s);
     }
 
     public GUIHandle getGUI() {
         return gui;
     }
 
-    private void saveLevelResult(int timeleft, LevelData data) {
-        //TODO: add to leaderboards
+    private Score saveScoreOffline(PlayerProgress progress) {
+        ScoreTableAccess score= new GameDB(context).getTableScore();
+        Score s= new Score(
+                "localPlayer",
+                progress.getScore(),
+                generateDateString(),
+                progress.getLevelsCleared()
+        );
+
+        Log.d("kek", "Adding score entry: " + s.toString());
+        score.addEntry(s);
+
+        return s;
+    }
+
+    private String generateDateString() {
+        return new SimpleDateFormat("dd. MM. yyyy", Locale.getDefault()).format(new Date());
     }
 }
