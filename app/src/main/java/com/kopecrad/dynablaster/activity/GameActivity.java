@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
@@ -19,9 +20,13 @@ import com.kopecrad.dynablaster.game.infrastructure.GameState;
 import com.kopecrad.dynablaster.game.infrastructure.InputHandler;
 import com.kopecrad.dynablaster.game.infrastructure.Renderer;
 import com.kopecrad.dynablaster.game.infrastructure.Scene;
+import com.kopecrad.dynablaster.game.infrastructure.sound.SoundController;
 import com.kopecrad.dynablaster.game.infrastructure.level.EnemyDescription;
 import com.kopecrad.dynablaster.game.infrastructure.level.PlayerProgress;
 import com.kopecrad.dynablaster.game.infrastructure.score.Score;
+import com.kopecrad.dynablaster.game.infrastructure.sound.SoundType;
+
+import java.util.ArrayList;
 
 /**
  * Core game activity - where actual game happens.
@@ -34,6 +39,7 @@ public class GameActivity extends FullscreenActivity {
     private InputHandler inp;
 
     private SharedPreferences prefs;
+    private SoundController sounds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +66,14 @@ public class GameActivity extends FullscreenActivity {
     protected void onPause() {
         super.onPause();
         renderer.pause();
+        scene.soundsDeactivate();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         renderer.resume();
+        scene.soundsActivate(this);
     }
 
     private void setupInputListeners() {

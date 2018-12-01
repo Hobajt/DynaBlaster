@@ -1,5 +1,6 @@
 package com.kopecrad.dynablaster.game.infrastructure;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.kopecrad.dynablaster.activity.GameActivity;
@@ -9,6 +10,8 @@ import com.kopecrad.dynablaster.game.infrastructure.level.PlayerProgress;
 import com.kopecrad.dynablaster.game.infrastructure.level.data.LevelLoader;
 import com.kopecrad.dynablaster.game.infrastructure.score.Score;
 import com.kopecrad.dynablaster.game.infrastructure.score.ScoreTableAccess;
+import com.kopecrad.dynablaster.game.infrastructure.sound.SoundController;
+import com.kopecrad.dynablaster.game.infrastructure.sound.SoundType;
 import com.kopecrad.dynablaster.game.objects.GameObject;
 
 import java.text.SimpleDateFormat;
@@ -32,6 +35,8 @@ public class Scene {
     private PlayerProgress progress;
     private GUIHandle gui;
     private GameActivity context;
+
+    private SoundController sounds;
 
     public Scene(GameActivity context, PlayerProgress progress, Renderer renderer, GUIHandle gui) {
         this.context= context;
@@ -107,5 +112,18 @@ public class Scene {
 
     private String generateDateString() {
         return new SimpleDateFormat("dd. MM. yyyy", Locale.getDefault()).format(new Date());
+    }
+
+    public void soundsActivate(Context context) {
+        sounds= new SoundController(SoundType.BG_LEVEL, context, SoundType.LIFE_LOST, SoundType.EXPLOSION);
+    }
+
+    public void soundsDeactivate() {
+        sounds.release();
+        sounds= null;
+    }
+
+    public SoundController getSounds() {
+        return sounds;
     }
 }

@@ -13,6 +13,8 @@ import android.widget.Switch;
 import com.kopecrad.dynablaster.R;
 import com.kopecrad.dynablaster.game.infrastructure.GameDB;
 import com.kopecrad.dynablaster.game.infrastructure.level.PlayerProgress;
+import com.kopecrad.dynablaster.game.infrastructure.sound.SoundController;
+import com.kopecrad.dynablaster.game.infrastructure.sound.SoundType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +29,7 @@ public class MainActivity extends FullscreenActivity {
     private SharedPreferences prefs;
 
     private boolean isProgress;
+    private SoundController sounds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,21 @@ public class MainActivity extends FullscreenActivity {
         setContentView(R.layout.activity_main);
 
         initialize();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sounds.release();
+        Log.d("kek", "MainActivity::onPause");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sounds= new SoundController(SoundType.BG_TITLE, this);
+        isProgress= !PlayerProgress.noProgress(prefs);
+        continueBtnVisibility();
     }
 
     /**
@@ -59,10 +77,6 @@ public class MainActivity extends FullscreenActivity {
      * @param view
      */
     public void resetGame(View view) {
-        //TODO: add popup with question "Do you really want to reset your progress?"
-
-        //TODO: erase achievements (scores, etc.)
-
         //erase last game run
         PlayerProgress.resetProgress(prefs);
         isProgress= false;
@@ -86,6 +100,7 @@ public class MainActivity extends FullscreenActivity {
      * @param view
      */
     public void gameContinue(View view) {
+        sounds.release();
         Intent intent= new Intent(getBaseContext(), GameActivity.class);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
@@ -100,6 +115,7 @@ public class MainActivity extends FullscreenActivity {
             isProgress= false;
         }
 
+        sounds.release();
         Intent intent= new Intent(getBaseContext(), GameActivity.class);
         startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
@@ -117,6 +133,7 @@ public class MainActivity extends FullscreenActivity {
         //init preferences
         prefs= getSharedPreferences(getResources().getString(R.string.prefs_name), Context.MODE_PRIVATE);
         isProgress= !PlayerProgress.noProgress(prefs);
+
 
         //initialize sound switch in options
         init_soundSwitch();
@@ -137,12 +154,16 @@ public class MainActivity extends FullscreenActivity {
      */
     private void init_soundSwitch() {
         Switch soundSwitch= findViewById(R.id.menu_opt_soundSwitch);
-        soundSwitch.setChecked(prefs.getBoolean("sound", true));
+        boolean enabled= prefs.getBoolean("sound", true);
+        SoundController.setMuted(!enabled);
+        soundSwitch.setChecked(enabled);
         soundSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 SharedPreferences.Editor pEdit= prefs.edit();
                 pEdit.putBoolean("sound", compoundButton.isChecked());
+                SoundController.setMuted(!compoundButton.isChecked());
+                sounds.mutedStateChange();
                 pEdit.apply();
                 Log.d("kek", "Sound state changed.");
             }
@@ -152,6 +173,11 @@ public class MainActivity extends FullscreenActivity {
     public void resetScoreboards(View view) {
         new GameDB(this).getTableScore().removeAllEntries();
         Log.d("kek", "All offline score entries have been removed.");
+    }
+
+    public void quitGame(View view) {
+        finish();
+        System.exit(0);
     }
 }
 

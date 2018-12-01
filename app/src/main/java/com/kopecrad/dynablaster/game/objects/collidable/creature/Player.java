@@ -7,6 +7,7 @@ import android.util.Log;
 import com.kopecrad.dynablaster.game.infrastructure.GameState;
 import com.kopecrad.dynablaster.game.infrastructure.level.LevelState;
 import com.kopecrad.dynablaster.game.infrastructure.level.PlayerProgress;
+import com.kopecrad.dynablaster.game.infrastructure.sound.SoundType;
 import com.kopecrad.dynablaster.game.objects.collidable.Bomb;
 import com.kopecrad.dynablaster.game.objects.collidable.CollidableRank;
 import com.kopecrad.dynablaster.game.objects.collidable.ItemType;
@@ -110,10 +111,12 @@ public class Player extends Creature {
     private boolean takeDamage() {
         Log.d("kek", "Player taking damage .");
         if(--health < 1) {
+            getScene().getSounds().playSound(SoundType.LIFE_LOST);
             getScene().getGUI().updateLives(Integer.toString(health));
             getScene().levelFinished(GameState.PLAYER_DIED);
             return true;
         }
+        getScene().getSounds().playSound(SoundType.LIFE_LOST);
         getScene().getGUI().updateLives(Integer.toString(health));
         return false;
     }

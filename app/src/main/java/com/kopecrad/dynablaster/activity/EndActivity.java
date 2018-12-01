@@ -15,6 +15,8 @@ import com.kopecrad.dynablaster.R;
 import com.kopecrad.dynablaster.game.infrastructure.GameState;
 import com.kopecrad.dynablaster.game.infrastructure.score.Score;
 import com.kopecrad.dynablaster.game.infrastructure.score.UploadScoreTask;
+import com.kopecrad.dynablaster.game.infrastructure.sound.SoundController;
+import com.kopecrad.dynablaster.game.infrastructure.sound.SoundType;
 
 /**
  * Activity that shows up after player dies/finishes the game.
@@ -26,6 +28,8 @@ public class EndActivity extends FullscreenActivity {
     private GameState state;
     private Score saveScore;
 
+    private SoundController sounds;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +37,15 @@ public class EndActivity extends FullscreenActivity {
 
         loadData();
         setupLayout();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(sounds != null) {
+            sounds.release();
+            sounds = null;
+        }
     }
 
     private void setupLayout() {
@@ -45,6 +58,11 @@ public class EndActivity extends FullscreenActivity {
                         : R.drawable.end_lost
         );
 
+        SoundType soundType= state == GameState.LEVEL_COMPLETED
+                ? SoundType.GAME_WON
+                : SoundType.GAME_OVER;
+        sounds= new SoundController(this, soundType);
+        sounds.playSound(soundType);
 
         switch (state) {
             case LEVEL_COMPLETED:

@@ -2,6 +2,7 @@ package com.kopecrad.dynablaster.game.objects.collidable;
 
 import android.graphics.Point;
 
+import com.kopecrad.dynablaster.game.infrastructure.sound.SoundType;
 import com.kopecrad.dynablaster.game.objects.Updatable;
 import com.kopecrad.dynablaster.game.objects.collidable.creature.Buffs;
 import com.kopecrad.dynablaster.game.objects.collidable.creature.Creature;
@@ -68,6 +69,8 @@ public class Bomb extends Block implements Updatable {
     }
 
     public void explode() {
+        getScene().getSounds().playSound(SoundType.EXPLOSION);
+
         int fireID = fireCounter++;
 
         List<Fire> f= new ArrayList<>();
