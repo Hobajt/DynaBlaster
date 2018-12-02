@@ -39,10 +39,15 @@ public class ScoreOnlineContainer implements ScoreContainer {
     }
 
     public void downloadTaskCallback(List<Score> scores) {
-        failedOrEmpty= (scores == null || scores.size() < 1);
-        this.cache= scores;
-        /*for(Score s : cache)
-            Log.d("kek", s.toString());*/
+        if(scores != null) {
+            failedOrEmpty = scores.size() < 1;
+            this.cache= scores;
+        }
+        else {
+            failedOrEmpty= true;
+            this.cache= new ArrayList<>();
+            Log.d("kek", "Score list was null");
+        }
         context.lateAdapter(new ScoreAdapter(context, R.layout.list_score_layout, cache));
     }
 }

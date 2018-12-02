@@ -13,6 +13,8 @@ import android.widget.Switch;
 import com.kopecrad.dynablaster.R;
 import com.kopecrad.dynablaster.game.infrastructure.GameDB;
 import com.kopecrad.dynablaster.game.infrastructure.level.PlayerProgress;
+import com.kopecrad.dynablaster.game.infrastructure.score.Score;
+import com.kopecrad.dynablaster.game.infrastructure.score.UploadScoreTask;
 import com.kopecrad.dynablaster.game.infrastructure.sound.SoundController;
 import com.kopecrad.dynablaster.game.infrastructure.sound.SoundType;
 
