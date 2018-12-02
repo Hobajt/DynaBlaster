@@ -1,4 +1,13 @@
 # DynaBlaster
-Projekt do TAMZ 2
+### Semestrální projekt do TAMZ2
 
-2D hra inspirovaná hrou Dyna Blaster. Cílem hráče bude za pomoci výbušnin odstranit nepřátele a dostat se do dalšího levelu. Ukládání skóre, záznam do žebříčku na server, sbírání vylepšení.
+2D hra inspirovaná hrou Dyna Blaster.<br>
+Cílem hráče bude za pomoci výbušnin odstranit nepřátele a dostat se do dalšího levelu. 
+
+__Required Feautures:__
+* Concurrency - využití threadů i AsyncTask
+* SQLite databáze
+* Multimédia - přehrávání zkukových efektů
+* použití SurfaceView a Canvasu
+* Shared Preferences
+* Networking - stahování i nahrávání JSON dat na server
