@@ -4,6 +4,8 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.Log;
 
+import com.kopecrad.dynablaster.game.MyPoint;
+import com.kopecrad.dynablaster.game.MyRect;
 import com.kopecrad.dynablaster.game.infrastructure.level.LevelState;
 import com.kopecrad.dynablaster.game.objects.GameObject;
 import com.kopecrad.dynablaster.game.objects.Updatable;
@@ -30,21 +32,32 @@ public abstract class Collidable extends GameObject {
      * Returns counter move (or null when no collision happened).
      */
     public Point detectAndRepairCollision(Collidable other) {
-        Rect obs= getBoundingRect();
-        Rect oth= other.getBoundingRect();
+        MyRect obs= getBoundingRect();
+        MyRect oth= other.getBoundingRect();
 
-        if (obs.left < oth.right && obs.right > oth.left &&
-                obs.top < oth.bottom && obs.bottom > oth.top) {
+        //System.out.printf("OBS: (%1$s, %2$s, %3$s, %4$s)%n", obs.left, obs.right, obs.top, obs.bottom);
+        //System.out.printf("OTH: (%1$s, %2$s, %3$s, %4$s)%n", oth.left, oth.right, oth.top, oth.bottom);
 
-            Point p= new Point(obs.left - oth.right, obs.top - oth.bottom);
+        if (obs.left < oth.right && obs.right > oth.left
+                && obs.top < oth.bottom && obs.bottom > oth.top) {
+
+            Point p= new MyPoint(obs.left - oth.right, obs.top - oth.bottom);
             int x= obs.right - oth.left;
-            if(Math.abs(p.x) > Math.abs(x))
-                p.x= x;
+            if(Math.abs(p.x) > Math.abs(x)) {
+                //System.out.println("move x");
+                p.x = x;
+            }
             x= obs.bottom - oth.top;
-            if(Math.abs(p.y) > Math.abs(x))
-                p.y= x;
+            if(Math.abs(p.y) > Math.abs(x)) {
+                //System.out.println("move y");
+                p.y = x;
+            }
+
+            //System.out.printf("vec: %1$s, %2$s%n", p.x, p.y);
+            //System.out.println("collision");
             return p;
         }
+        //System.out.println("no collision");
         return null;
     }
 
@@ -52,8 +65,8 @@ public abstract class Collidable extends GameObject {
      * AABB Collision check - no fixing, only true/false value.
      */
     public boolean isColliding(Collidable other) {
-        Rect obs= getBoundingRect();
-        Rect oth= other.getBoundingRect();
+        MyRect obs= getBoundingRect();
+        MyRect oth= other.getBoundingRect();
 
         return (obs.left < oth.right && obs.right > oth.left &&
                 obs.top < oth.bottom && obs.bottom > oth.top);

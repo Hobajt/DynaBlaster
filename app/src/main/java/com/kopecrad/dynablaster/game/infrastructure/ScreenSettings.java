@@ -4,6 +4,8 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.Log;
 
+import com.kopecrad.dynablaster.game.MyPoint;
+import com.kopecrad.dynablaster.game.MyRect;
 import com.kopecrad.dynablaster.game.infrastructure.level.LevelState;
 
 /**
@@ -46,15 +48,15 @@ public class ScreenSettings {
     /**
      * Calculates GameObject rectangle for rendering.
      */
-    public Rect getObjectRect(Point realPos) {
-        return new Rect(realPos.x, realPos.y, realPos.x+TILE_SIZE, realPos.y+TILE_SIZE);
+    public MyRect getObjectRect(Point realPos) {
+        return new MyRect(realPos.x, realPos.y, realPos.x+TILE_SIZE, realPos.y+TILE_SIZE);
     }
 
     /**
      * Translates tile index positions into real pixel position.
      */
     public Point calcPosition(int x, int y) {
-        return new Point(x * TILE_SIZE, y * TILE_SIZE);
+        return new MyPoint(x * TILE_SIZE, y * TILE_SIZE);
     }
 
     public void setViewPos(Point pos) {
@@ -64,8 +66,8 @@ public class ScreenSettings {
     /**
      * Applies view vector to the bounding rect.
      */
-    public Rect getScreenRect(Rect boundingRect) {
-        return new Rect(
+    public MyRect getScreenRect(MyRect boundingRect) {
+        return new MyRect(
             boundingRect.left - viewPos.x,
             boundingRect.top - viewPos.y,
             boundingRect.right - viewPos.x,
@@ -92,8 +94,8 @@ public class ScreenSettings {
         }
     }
 
-    public Rect getCreatureRect(Point realPos) {
-        return new Rect(
+    public MyRect getCreatureRect(Point realPos) {
+        return new MyRect(
                 realPos.x + CREATURE_REDUCTION,
                 realPos.y + CREATURE_REDUCTION,
                 realPos.x+TILE_SIZE  - CREATURE_REDUCTION,
@@ -101,8 +103,8 @@ public class ScreenSettings {
         );
     }
 
-    public Rect getScreenRectCreature(Rect boundingRect) {
-        return new Rect(
+    public MyRect getScreenRectCreature(MyRect boundingRect) {
+        return new MyRect(
                 boundingRect.left - CREATURE_REDUCTION - viewPos.x,
                 boundingRect.top - CREATURE_REDUCTION - viewPos.y,
                 boundingRect.right + CREATURE_REDUCTION - viewPos.x,
@@ -110,8 +112,8 @@ public class ScreenSettings {
         );
     }
 
-    public Rect getScreenRectPlayer(Rect boundingRect) {
-        return new Rect(
+    public MyRect getScreenRectPlayer(MyRect boundingRect) {
+        return new MyRect(
                 boundingRect.left - (PLAYER_ADDITION/2) - viewPos.x,
                 boundingRect.top - PLAYER_ADDITION - viewPos.y,
                 boundingRect.right + (PLAYER_ADDITION/2) - viewPos.x,

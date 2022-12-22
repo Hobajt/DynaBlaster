@@ -16,8 +16,12 @@ public class BombPool {
     private int bombCap;
 
     public BombPool() {
+        this(1);
+    }
+
+    public BombPool(int cap) {
         bombs= new ArrayList<>();
-        bombCap= 1;
+        bombCap= cap;
         bombPointer= 0;
 
         balancePool();
@@ -73,6 +77,7 @@ public class BombPool {
      */
     public Bomb dropBomb(Point position) {
         Bomb b= bombs.get(bombPointer);
+        //System.out.println("ptr: " + bombPointer + ", cap: " + bombCap + ", size: " + bombs.size());
         if(!b.isActive()) {
             Log.d("bmbTst", "Dropping bomb " + bombPointer);
             b.activate(position);
@@ -98,6 +103,8 @@ public class BombPool {
             for(int i= 0; i < bombCap - bombs.size(); i++) {
                 bombs.add(new Bomb());
             }
+            if(bombs.get(bombPointer).isActive())
+                bombPointer++;
         }
     }
 }

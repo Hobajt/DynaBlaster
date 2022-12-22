@@ -72,7 +72,7 @@ public class SoundController {
         else {
             try {
                 bgPlayer.prepare();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             bgPlayer.start();

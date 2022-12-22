@@ -3,6 +3,7 @@ package com.kopecrad.dynablaster.game.objects.collidable;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+import com.kopecrad.dynablaster.game.MyRect;
 import com.kopecrad.dynablaster.game.objects.Updatable;
 import com.kopecrad.dynablaster.game.objects.graphics.Animation;
 import com.kopecrad.dynablaster.game.objects.graphics.GuestAnimation;
@@ -11,9 +12,9 @@ public class AnimPlayer implements Updatable {
 
     private GuestAnimation anim;
 
-    private Rect screenRect;
+    private MyRect screenRect;
 
-    public AnimPlayer(Animation anim, Rect screenRect) {
+    public AnimPlayer(Animation anim, MyRect screenRect) {
         this.anim= new GuestAnimation(anim);
         this.screenRect= screenRect;
     }
@@ -25,6 +26,6 @@ public class AnimPlayer implements Updatable {
     }
 
     public void render(Canvas canvas) {
-        canvas.drawBitmap(anim.getFrame(), null, screenRect, null);
+        canvas.drawBitmap(anim.getFrame(), null, screenRect.Rekt(), null);
     }
 }

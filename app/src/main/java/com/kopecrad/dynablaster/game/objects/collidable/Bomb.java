@@ -40,6 +40,14 @@ public class Bomb extends Block implements Updatable {
         idxPos= new Point(0,0);
     }
 
+//    public Bomb(Point position) {
+//        super(position.x, position.y, BOMB_GRAPHICS);
+//        active= true;
+//        setPosition(getScreen().calcPosition(position.x, position.y));
+//        idxPos= getScreen().getClosestIndex(getPosition());
+//        boomTime= System.currentTimeMillis() + BOMB_TIME_CONST;
+//    }
+
     public void activate(Point position) {
         active= true;
         setPosition(getScreen().calcPosition(position.x, position.y));

@@ -4,6 +4,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.Log;
 
+import com.kopecrad.dynablaster.game.MyRect;
 import com.kopecrad.dynablaster.game.infrastructure.level.LevelState;
 import com.kopecrad.dynablaster.game.objects.GameObject;
 import com.kopecrad.dynablaster.game.objects.collidable.Collidable;
@@ -85,7 +86,7 @@ public abstract class Creature extends Collidable {
     }
 
     @Override
-    protected Rect getScreenRect() {
+    protected MyRect getScreenRect() {
         return getScreen().getScreenRectCreature(boundingRect);
     }
 }

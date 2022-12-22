@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class ImageResources {
 
-    public static final int TEXTURE_DEFAULT= R.drawable.no_texture;;
+    public static final int TEXTURE_DEFAULT= R.drawable.no_texture;
 
     private String packageName;
     private Resources res;

@@ -63,14 +63,6 @@ public class DownloadScoreTask extends AsyncTask<String, Void, List<Score>> {
 
         try {
             Gson gson = new Gson();
-            /*Type collectionType = new TypeToken<Collection<String>>() {}.getType();
-            Collection<String> jsonScores = gson.fromJson(json, collectionType);
-
-            List<Score> scores = new ArrayList<>();
-
-            for (String s : jsonScores)
-                scores.add(gson.fromJson(s, Score.class));*/
-
             Score[] sc= gson.fromJson(json, Score[].class);
             List<Score> scores = new ArrayList<>(Arrays.asList(sc));
 

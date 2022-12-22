@@ -3,9 +3,9 @@ package com.kopecrad.dynablaster.game.objects;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.util.Log;
 
+import com.kopecrad.dynablaster.game.MyRect;
 import com.kopecrad.dynablaster.game.infrastructure.ImageResources;
 import com.kopecrad.dynablaster.game.infrastructure.Scene;
 import com.kopecrad.dynablaster.game.infrastructure.ScreenSettings;
@@ -31,7 +31,7 @@ public class GameObject {
     private ObjectGraphics graphics;
 
     private Point position;
-    protected Rect boundingRect;
+    protected MyRect boundingRect;
 
     protected GameObject(int x, int y, ObjectGraphics graphics) {
         setPosition(screen.calcPosition(x,y));
@@ -39,7 +39,7 @@ public class GameObject {
     }
 
     public GameObject(int x, int y, String graphics) {
-        this(x, y, imgRes.getGraphics(graphics));
+        this(x, y, graphics != null ? imgRes.getGraphics(graphics) : null);
     }
 
     public static void ehm() {
@@ -51,10 +51,10 @@ public class GameObject {
      * Render call for this object.
      */
     public void render(Canvas canvas) {
-        canvas.drawBitmap(graphics.getFrame(), null, getScreenRect(), null);
+        canvas.drawBitmap(graphics.getFrame(), null, getScreenRect().Rekt(), null);
     }
 
-    protected Rect getScreenRect() {
+    protected MyRect getScreenRect() {
         return screen.getScreenRect(boundingRect);
     }
 
@@ -63,6 +63,7 @@ public class GameObject {
     }
 
     public void setPosition(Point p) {
+        //System.out.printf("%1$s, %1$s%n", p.x, p.y);
         position= p;
         setupBoundingRect();
     }
@@ -71,7 +72,7 @@ public class GameObject {
         setPosition(new Point(position.x + p.x, position.y + p.y));
     }
 
-    public Rect getBoundingRect() {
+    public MyRect getBoundingRect() {
         return boundingRect;
     }
 
@@ -109,7 +110,8 @@ public class GameObject {
     }
 
     protected void setupBoundingRect() {
-        boundingRect= screen.getObjectRect(position);
+        boundingRect = screen.getObjectRect(position);
+        MyRect br = boundingRect;
     }
 
     public void setMapPosition(int x, int y) {

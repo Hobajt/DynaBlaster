@@ -4,6 +4,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.Log;
 
+import com.kopecrad.dynablaster.game.MyRect;
 import com.kopecrad.dynablaster.game.infrastructure.GameState;
 import com.kopecrad.dynablaster.game.infrastructure.level.LevelState;
 import com.kopecrad.dynablaster.game.infrastructure.level.PlayerProgress;
@@ -132,7 +133,7 @@ public class Player extends Creature {
     }
 
     @Override
-    protected Rect getScreenRect() {
+    protected MyRect getScreenRect() {
         return getScreen().getScreenRectPlayer(boundingRect);
     }
 
